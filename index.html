@@ -157,7 +157,7 @@
     margin-top:6px;
   }
 
-  /* === Sub tabs (inside استقالة / اجازات) === */
+  /* === Sub tabs (inside استقالة / اجازات / شرطة / قضاء) === */
   .sub-menu{
     display:flex;
     gap:10px;
@@ -458,13 +458,133 @@
 <!-- =============== TAB 3: الشرطة العسكرية =============== -->
 <div id="mpBox" class="container">
   <h2>🚔 الشرطة العسكرية 🚔</h2>
-  <p style="text-align:center;">يمكن إضافة نماذج الشرطة العسكرية هنا لاحقًا بنفس التنسيق.</p>
+
+  <div class="sub-menu">
+    <button class="active" onclick="showSub('mp-est', this, 'mpBox')">الاستدعاء</button>
+    <button onclick="showSub('mp-hkm', this, 'mpBox')">حكم عسكري</button>
+  </div>
+
+  <!-- استدعاء الشرطة العسكرية -->
+  <div id="mp-est" class="sub-section active">
+    <label>برقية رقم</label>
+    <input type="number" id="mp-est-barqia" placeholder="0000">
+
+    <label>الكوبي ايدي</label>
+    <input type="text" id="mp-est-copyid" placeholder="مثال 123456789012345678">
+
+    <label>مدة المهلة</label>
+    <select id="mp-est-mohla">
+      <option value="مهلة 1 ساعة">مهلة 1 ساعة</option>
+      <option value="مهلة 12 ساعة">مهلة 12 ساعة</option>
+    </select>
+
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('mp-est-result')">
+        <span>📄</span>
+        <span data-arrow-for="mp-est-result">▼</span>
+      </div>
+      <div id="mp-est-result" class="result-content">
+        <textarea id="mp-est-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('mp-est-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- حكم عسكري (شرطة عسكرية) -->
+  <div id="mp-hkm" class="sub-section">
+    <label>برقية رقم</label>
+    <input type="number" id="mp-hkm-barqia" placeholder="0000">
+
+    <label>الكوبي ايدي</label>
+    <input type="text" id="mp-hkm-copyid" placeholder="مثال 123456789012345678">
+
+    <label>بسبب</label>
+    <input type="text" id="mp-hkm-reason" placeholder="اكتب السبب هنا">
+
+    <label>الحكم</label>
+    <input type="text" id="mp-hkm-hkm" placeholder="اكتب الحكم هنا">
+
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('mp-hkm-result')">
+        <span>📄</span>
+        <span data-arrow-for="mp-hkm-result">▼</span>
+      </div>
+      <div id="mp-hkm-result" class="result-content">
+        <textarea id="mp-hkm-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('mp-hkm-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- =============== TAB 4: مجلس القضاء =============== -->
 <div id="courtBox" class="container">
   <h2>⚖️ مجلس القضاء ⚖️</h2>
-  <p style="text-align:center;">يمكن إضافة نماذج مجلس القضاء هنا لاحقًا بنفس التنسيق.</p>
+
+  <div class="sub-menu">
+    <button class="active" onclick="showSub('court-est', this, 'courtBox')">استدعاء  القضاء العسكري</button>
+    <button onclick="showSub('court-hkm', this, 'courtBox')">حكم  قضاء عسكري</button>
+  </div>
+
+  <!-- استدعاء القضاء العسكري -->
+  <div id="court-est" class="sub-section active">
+    <label>برقية رقم</label>
+    <input type="number" id="court-est-barqia" placeholder="0000">
+
+    <label>الكوبي ايدي</label>
+    <input type="text" id="court-est-copyid" placeholder="مثال 123456789012345678">
+
+    <label>مدة المهلة</label>
+    <select id="court-est-mohla">
+      <option value="مهلة 1 ساعة">مهلة 1 ساعة</option>
+      <option value="مهلة 12 ساعة">مهلة 12 ساعة</option>
+    </select>
+
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('court-est-result')">
+        <span>📄</span>
+        <span data-arrow-for="court-est-result">▼</span>
+      </div>
+      <div id="court-est-result" class="result-content">
+        <textarea id="court-est-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('court-est-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- حكم قضاء عسكري -->
+  <div id="court-hkm" class="sub-section">
+    <label>برقية رقم</label>
+    <input type="number" id="court-hkm-barqia" placeholder="0000">
+
+    <label>الكوبي ايدي</label>
+    <input type="text" id="court-hkm-copyid" placeholder="مثال 123456789012345678">
+
+    <label>بسبب</label>
+    <input type="text" id="court-hkm-reason" placeholder="اكتب السبب هنا">
+
+    <label>الحكم</label>
+    <input type="text" id="court-hkm-hkm" placeholder="اكتب الحكم هنا">
+
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('court-hkm-result')">
+        <span>📄</span>
+        <span data-arrow-for="court-hkm-result">▼</span>
+      </div>
+      <div id="court-hkm-result" class="result-content">
+        <textarea id="court-hkm-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('court-hkm-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -687,10 +807,6 @@
     intManualRow.style.display = intManualCheckbox.checked ? 'block' : 'none';
   });
 
-  function addHours(date, hours){
-    return new Date(date.getTime() + hours*3600000);
-  }
-
   function generateInternalLeave(){
     const barqia = document.getElementById('int-barqia').value || '0000';
     const personNum = document.getElementById('int-person-num').value || '1';
@@ -813,7 +929,136 @@
   }
   document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
   generateExternalLeave();
+
+  /* ====== الشرطة العسكرية: الاستدعاء ====== */
+  function updateMpEst(){
+    const barqia = document.getElementById('mp-est-barqia').value || '0000';
+    const copyId = document.getElementById('mp-est-copyid').value || 'الكوبي ايدي';
+    const mohl = document.getElementById('mp-est-mohla').value || 'مهلة 1 ساعة';
+
+    const txt =
+`**﷽**
+
+\`برقية رقم :\` **${barqia}**
+
+\`الموضوع :\` **إستدعاء**
+
+\`قرار صادر من المجلس العسكري بحرس الحدود \`
+
+\`باستدعاء العسكري :\`  <@${copyId}> 
+ 
+**${mohl} يجب عليك فتح تكت  https://discord.com/channels/1414676239960113214/1414686853281611876  والتواصل مع أعضاء** <@&1333955142164156477>  ** عدم حضورك للإستدعاء لن يعفيك من العقوبه**     
+
+
+**يتم التحفظ بالسبب لدى المجلس العسكري حتى إنتهاء التحقيقات اللازمة**
+
+\`توقيع :\` <@&1333955142164156477>
+\`اعتماد: \` <@&1339587496970813461>`;
+    document.getElementById('mp-est-output').value = txt;
+  }
+  ['mp-est-barqia','mp-est-copyid','mp-est-mohla'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateMpEst);
+    if(document.getElementById(id).tagName === 'SELECT'){
+      document.getElementById(id).addEventListener('change',updateMpEst);
+    }
+  });
+  updateMpEst();
+
+  /* ====== الشرطة العسكرية: حكم عسكري ====== */
+  function updateMpHkm(){
+    const barqia = document.getElementById('mp-hkm-barqia').value || '0000';
+    const copyId = document.getElementById('mp-hkm-copyid').value || 'الكوبي ايدي';
+    const reason = document.getElementById('mp-hkm-reason').value || 'ـــــــــــــــــــــــــــــ';
+    const hkm = document.getElementById('mp-hkm-hkm').value || '--------------';
+
+    const txt =
+`**﷽**
+
+\`برقية رقم :\`  ** ${barqia}**
+
+\`الموضوع :\` **حكم عسكري **
+
+\`بعد مراجعة شعبة التحقيق في ملف العسكري المذكور ادناه \`
+
+\` العسكري :\`    <@${copyId}>
+
+\`بسبب :\` ** ${reason}  **
+
+\`فقد قررت شعبة التحقيق بالحكم :\`  **:  ${hkm} تسلم الى احد اعضاء <@&1339587496970813461>   **       
+
+**وإرسال نسخة من الحكم لـ  <@&1333955330283147285>  الادارية  للإعتماد والتنفيذ .**  
+
+\`\` توقيع و اعتماد:\` **<@&1339587496970813461> **`;
+    document.getElementById('mp-hkm-output').value = txt;
+  }
+  ['mp-hkm-barqia','mp-hkm-copyid','mp-hkm-reason','mp-hkm-hkm'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateMpHkm);
+  });
+  updateMpHkm();
+
+  /* ====== مجلس القضاء: استدعاء القضاء العسكري ====== */
+  function updateCourtEst(){
+    const barqia = document.getElementById('court-est-barqia').value || '0000';
+    const copyId = document.getElementById('court-est-copyid').value || 'الكوبي ايدي';
+    const mohl = document.getElementById('court-est-mohla').value || 'مهلة 1 ساعة';
+
+    const txt =
+`**﷽**
+
+\`برقية رقم :\` **${barqia}**
+
+\`الموضوع :\` **إستدعاء **
+
+\`قرار صادر من المجلس العسكري بحرس الحدود \`
+
+\`باستدعاء العسكري :\`      <@${copyId}>
+
+**${mohl} يجب عليك فتح تكت https://discord.com/channels/1414676239960113214/1414686853281611876 والتواصل مع أعضاء** <@&1339587496970813461>    ** عدم حضورك للإستدعاء لن يعفيك من العقوبه**
+
+**يتم التحفظ بالسبب لدى المجلس العسكري حتى إنتهاء التحقيقات اللازمة**
+
+\`اعتماد: \` <@&1339587496970813461>`;
+    document.getElementById('court-est-output').value = txt;
+  }
+  ['court-est-barqia','court-est-copyid','court-est-mohla'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateCourtEst);
+    if(document.getElementById(id).tagName === 'SELECT'){
+      document.getElementById(id).addEventListener('change',updateCourtEst);
+    }
+  });
+  updateCourtEst();
+
+  /* ====== مجلس القضاء: حكم قضاء عسكري ====== */
+  function updateCourtHkm(){
+    const barqia = document.getElementById('court-hkm-barqia').value || '0000';
+    const copyId = document.getElementById('court-hkm-copyid').value || 'الكوبي ايدي';
+    const reason = document.getElementById('court-hkm-reason').value || 'ـــــــــــــــــــــــــــــ';
+    const hkm = document.getElementById('court-hkm-hkm').value || '--------------';
+
+    const txt =
+`**﷽**
+
+\`برقية رقم :\`  ** ${barqia}**
+
+\`الموضوع :\` **حكم عسكري **
+
+\`بعد مراجعة شعبة التحقيق في ملف العسكري المذكور ادناه \`
+
+\` العسكري :\`    <@${copyId}> 
+
+\`بسبب :\` ** ${reason}  **
+
+\`فقد قررت شعبة التحقيق بالحكم :\`  **:  ${hkm} تسلم الى احد اعضاء <@&1339587496970813461>   **       
+
+**وإرسال نسخة من الحكم لـ  <@&1333955330283147285>  الادارية  للإعتماد والتنفيذ .**  
+
+\`\` توقيع و اعتماد:\` **<@&1339587496970813461> **`;
+    document.getElementById('court-hkm-output').value = txt;
+  }
+  ['court-hkm-barqia','court-hkm-copyid','court-hkm-reason','court-hkm-hkm'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateCourtHkm);
+  });
+  updateCourtHkm();
 </script>
 </body>
 </html>
-
