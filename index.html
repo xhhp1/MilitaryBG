@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
@@ -67,19 +67,19 @@
     box-shadow:0 0 0 2px rgba(255,255,255,0.7);
   }
 
-  /* === Container for each tab === */
-.container{
-  display:none;
-  max-width:980px;
-  margin: 12px auto;
-  background: rgba(0,0,0,0.30) !important; /* transparent */
-  backdrop-filter: blur(8px);              /* glass blur */
-  border-radius:12px;
-  padding:18px;
-  text-align:right;
-  box-sizing:border-box;
-  border:1px solid rgba(255,255,255,0.1);  /* optional glass border */
-}
+  /* === Container for each tab (glass effect) === */
+  .container{
+    display:none;
+    max-width:980px;
+    margin: 12px auto;
+    background: rgba(0,0,0,0.30) !important; /* transparent */
+    backdrop-filter: blur(8px);              /* glass blur */
+    border-radius:12px;
+    padding:18px;
+    text-align:right;
+    box-sizing:border-box;
+    border:1px solid rgba(255,255,255,0.1);  /* optional glass border */
+  }
   .container.active{ display:block; }
   .container h2{
     margin-top:0;
@@ -419,7 +419,7 @@
     }
   }
 
-  /* ====== Mecca time helpers (EN digits) ====== */
+  /* ====== Mecca time helpers (EN digits + ص / م) ====== */
   function addHours(date, hours){
     return new Date(date.getTime() + hours*3600000);
   }
@@ -439,14 +439,20 @@
       day:'2-digit'
     }).format(date).replace(/-/g,'/');
 
-    const timeStr = new Intl.DateTimeFormat('en-GB',{
+    // 12-hour time with am/pm, then convert to ص / م
+    const fullTime = new Intl.DateTimeFormat('en-GB',{
       timeZone:'Asia/Riyadh',
       hour:'2-digit',
       minute:'2-digit',
-      hour12:true 
-    }).format(date);
+      hour12:true
+    }).format(date); // e.g. "05:35 pm"
 
-    return {dayName,dateStr,timeStr};
+    const parts = fullTime.split(' ');
+    const timePart = parts[0];              // "05:35"
+    const ampm = (parts[1] || '').toLowerCase(); // "pm" or "am"
+    const period = ampm.includes('am') ? 'ص' : 'م';
+
+    return {dayName,dateStr,timeStr: timePart, period};
   }
 
   /* ====== استقالة: الأفراد ====== */
@@ -504,7 +510,7 @@
 
 \`قرار صادر من الشؤون الإدارية بحرس الحدود \`
 
-\`بفصل العسكري:\`  ** <@${mention}> **  **\`[${code}] ${name} \`**
+\`بفصل العسكري:\`  ** ${mention} **  **\`[${code}] ${name} \`**
 
 \`غرامة مليون يتم تسليمها للشؤون الإدارية و منع من التوظيف لمدة ${days} ايام\` 
 
@@ -617,11 +623,11 @@
 
 **\`مدة الاجازة : ${durationHours} ســاعـه \` ** 
 
-**من يوم  ${fmtStart.dayName}   | تاريخ ${fmtStart.dateStr} |  الساعة ${fmtStart.timeStr} م.ص **
+**من يوم  ${fmtStart.dayName}   | تاريخ ${fmtStart.dateStr} |  الساعة ${fmtStart.timeStr} ${fmtStart.period} **
 
-** الى يوم ${fmtEnd.dayName}  | تاريخ ${fmtEnd.dateStr} | الساعة ${fmtEnd.timeStr} م.ص **
+** الى يوم ${fmtEnd.dayName}  | تاريخ ${fmtEnd.dateStr} | الساعة ${fmtEnd.timeStr} ${fmtEnd.period} **
 
-** \`عدد الساعات المتبقية : \` ${remainingAfter} ساعـــه ** 
+** \`عدد الساعات المتبقية :\` ${remainingAfter} ساعـــه ** 
  
 **\`محرر الأجازة :  \` ** <@${signer}>
 
