@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
@@ -102,7 +102,7 @@
   input[type="text"],
   input[type="number"],
   input[type="date"],
-  input[type="datetime-local"],
+  input[type="time"],
   select,
   textarea{
     width:100%;
@@ -342,7 +342,8 @@
 
     <div id="int-manual-time-row" style="display:none;">
       <label>وقت بداية الإجازة (توقيت مكة)</label>
-      <input type="datetime-local" id="int-start-dt">
+      <!-- TIME ONLY, date comes automatically from today -->
+      <input type="time" id="int-start-time" step="60">
     </div>
 
     <label>توقيعك و اعتمادك</label>
@@ -598,15 +599,22 @@
 
     let startDate;
     if(intManualCheckbox.checked){
-      const val = document.getElementById('int-start-dt').value;
-      if(val){
-        startDate = new Date(val);
-      } else {
-        startDate = new Date();
+      // Use today's date + manual time
+      const tVal = document.getElementById('int-start-time').value; // "HH:MM"
+      const now = new Date();
+      if(tVal){
+        const [hStr,mStr] = tVal.split(':');
+        const h = parseInt(hStr || '0',10);
+        const m = parseInt(mStr || '0',10);
+        startDate = new Date(now.getTime());
+        startDate.setHours(h, m, 0, 0);
+      }else{
+        startDate = now;
       }
     } else {
       startDate = new Date();
     }
+
     const endDate = addHours(startDate, durationHours);
 
     const fmtStart = formatMecca(startDate);
@@ -685,5 +693,3 @@
 </script>
 </body>
 </html>
-
-
