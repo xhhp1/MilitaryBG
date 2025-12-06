@@ -177,7 +177,7 @@
     transition:opacity .12s ease, transform .12s ease, box-shadow .12s ease;
     text-shadow:
       -1px -1px 0 #000,
-       1px -1px 0 #000,
+       1px  -1px 0 #000,
       -1px  1px 0 #000,
        1px  1px 0 #000;
   }
@@ -408,8 +408,10 @@
     <label>توقيعك و اعتمادك</label>
     <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
 
+    <!-- SAME ROW: إنشاء القرار + نسخ -->
     <div class="button-row">
       <button class="btn" id="int-generate">إنشاء القرار</button>
+      <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
     </div>
 
     <div class="result-box">
@@ -419,9 +421,6 @@
       </div>
       <div id="int-result" class="result-content">
         <textarea id="int-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
       </div>
     </div>
 
@@ -435,8 +434,10 @@
     <label>المدة (بالأيام)</label>
     <input type="number" id="ext-days" placeholder="مثال 3">
 
+    <!-- SAME ROW: إنشاء القرار + نسخ -->
     <div class="button-row">
       <button class="btn" id="ext-generate">إنشاء القرار</button>
+      <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
     </div>
 
     <div class="result-box">
@@ -446,9 +447,6 @@
       </div>
       <div id="ext-result" class="result-content">
         <textarea id="ext-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
       </div>
     </div>
 
@@ -478,6 +476,10 @@
       <option value="مهلة 12 ساعة">مهلة 12 ساعة</option>
     </select>
 
+    <div class="button-row">
+      <button class="btn" onclick="copyText('mp-est-output', this)">📋 نسخ</button>
+    </div>
+
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('mp-est-result')">
         <span>📄</span>
@@ -485,9 +487,6 @@
       </div>
       <div id="mp-est-result" class="result-content">
         <textarea id="mp-est-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('mp-est-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -506,6 +505,10 @@
     <label>الحكم</label>
     <input type="text" id="mp-hkm-hkm" placeholder="اكتب الحكم هنا">
 
+    <div class="button-row">
+      <button class="btn" onclick="copyText('mp-hkm-output', this)">📋 نسخ</button>
+    </div>
+
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('mp-hkm-result')">
         <span>📄</span>
@@ -513,9 +516,6 @@
       </div>
       <div id="mp-hkm-result" class="result-content">
         <textarea id="mp-hkm-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('mp-hkm-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -544,6 +544,10 @@
       <option value="مهلة 12 ساعة">مهلة 12 ساعة</option>
     </select>
 
+    <div class="button-row">
+      <button class="btn" onclick="copyText('court-est-output', this)">📋 نسخ</button>
+    </div>
+
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('court-est-result')">
         <span>📄</span>
@@ -551,9 +555,6 @@
       </div>
       <div id="court-est-result" class="result-content">
         <textarea id="court-est-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('court-est-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -572,6 +573,10 @@
     <label>الحكم</label>
     <input type="text" id="court-hkm-hkm" placeholder="اكتب الحكم هنا">
 
+    <div class="button-row">
+      <button class="btn" onclick="copyText('court-hkm-output', this)">📋 نسخ</button>
+    </div>
+
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('court-hkm-result')">
         <span>📄</span>
@@ -579,9 +584,6 @@
       </div>
       <div id="court-hkm-result" class="result-content">
         <textarea id="court-hkm-output" readonly></textarea>
-      </div>
-      <div class="button-row">
-        <button class="btn" onclick="copyText('court-hkm-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
