@@ -6,10 +6,9 @@
 <title>💼الشؤون الإدارية💼</title>
 <style>
   :root{
-    --gold:#e0ca51;
-    --bg:#222;
-    --panel-bg: rgba(0,0,0,0.85);
-    --btn:#2596be; /* لون الأزرار المطلوب */
+    --primary:#406776;
+    --accent:#bc8122;
+    --panel-bg: rgba(64,103,118,0.88);
   }
   html,body{height:100%}
   body{
@@ -17,7 +16,7 @@
     font-family: Tahoma, Arial, sans-serif;
     background: url("https://raw.githubusercontent.com/xhhp1/milibg/main/bg.jpg") no-repeat center center fixed;
     background-size: cover;
-    color:var(--gold);
+    color:var(--accent);
     text-align:center;
     padding:20px;
     box-sizing:border-box;
@@ -35,21 +34,21 @@
   .menu button{
     padding:18px 36px;
     font-size:20px;
-    background:var(--btn);
-    color:#111;
+    background:var(--primary);
+    color:var(--accent);
     border:none;
     border-radius:12px;
     font-weight:bold;
     cursor:pointer;
-    transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
     min-width:170px;
   }
   .menu button:hover{
-    background:#2fa4d0;
     transform:translateY(-2px);
+    opacity:0.9;
   }
   .menu button.active{
-    box-shadow:0 0 0 2px rgba(255,255,255,0.4);
+    box-shadow:0 0 0 2px rgba(188,129,34,0.7);
   }
 
   /* === Container for each tab === */
@@ -64,7 +63,7 @@
     box-sizing:border-box;
   }
   .container.active{ display:block; }
-  .container h2{ margin-top:0; color:var(--gold); text-align:center; }
+  .container h2{ margin-top:0; color:var(--accent); text-align:center; }
 
   label{
     display:block;
@@ -81,9 +80,9 @@
     width:100%;
     padding:10px;
     border-radius:8px;
-    border:1px solid var(--gold);
-    background:var(--bg);
-    color:var(--gold);
+    border:1px solid var(--accent);
+    background:var(--primary);
+    color:var(--accent);
     font-size:15px;
     box-sizing:border-box;
   }
@@ -104,19 +103,23 @@
   }
   .btn{
     padding:12px 22px;
-    background:var(--btn);
-    color:#111;
+    background:var(--primary);
+    color:var(--accent);
     border:none;
     border-radius:8px;
     font-weight:bold;
     cursor:pointer;
     font-size:15px;
+    transition:opacity .12s ease, transform .12s ease;
   }
-  .btn:hover{ background:#2fa4d0; }
+  .btn:hover{
+    opacity:0.9;
+    transform:translateY(-1px);
+  }
 
   .note{
     font-size:12px;
-    opacity:0.85;
+    opacity:0.9;
     margin-top:6px;
   }
 
@@ -131,20 +134,20 @@
   .sub-menu button{
     padding:10px 18px;
     font-size:15px;
-    background:var(--btn);
-    color:#111;
+    background:var(--primary);
+    color:var(--accent);
     border:none;
     border-radius:10px;
     cursor:pointer;
     font-weight:bold;
-    transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+    transition:opacity .12s ease, transform .12s ease, box-shadow .12s ease;
   }
   .sub-menu button:hover{
-    background:#2fa4d0;
+    opacity:0.9;
     transform:translateY(-1px);
   }
   .sub-menu button.active{
-    box-shadow:0 0 0 2px rgba(255,255,255,0.4);
+    box-shadow:0 0 0 2px rgba(188,129,34,0.7);
   }
   .sub-section{ display:none; }
   .sub-section.active{ display:block; }
@@ -311,7 +314,7 @@
     </div>
 
     <textarea id="int-output" readonly></textarea>
-    <div class="note">التاريخ والوقت واسم اليوم يتم احتسابها على توقيت مكة (Asia/Riyadh).</div>
+    <div class="note">التاريخ والوقت واسم اليوم يتم احتسابها على توقيت مكة (Asia/Riyadh) بالأرقام الإنجليزية.</div>
   </div>
 
   <!-- إجازة خارجية -->
@@ -328,7 +331,7 @@
     </div>
 
     <textarea id="ext-output" readonly></textarea>
-    <div class="note">تاريخ البداية لحظة الضغط على إنشاء القرار بتوقيت مكة، وتاريخ النهاية = البداية + مدة الإجازة.</div>
+    <div class="note">تاريخ البداية لحظة الضغط على إنشاء القرار بتوقيت مكة، وتاريخ النهاية = البداية + مدة الإجازة (أرقام إنجليزية).</div>
   </div>
 </div>
 
@@ -376,7 +379,7 @@
     }
   }
 
-  /* ====== Helpers: Mecca time / dates ====== */
+  /* ====== Helpers: Mecca time / dates with EN digits ====== */
   function addHours(date, hours){
     return new Date(date.getTime() + hours*3600000);
   }
@@ -384,24 +387,27 @@
     return new Date(date.getTime() + days*86400000);
   }
   function formatMecca(date){
+    // Day name in Arabic
     const dayName = new Intl.DateTimeFormat('ar-SA',{
       timeZone:'Asia/Riyadh',
       weekday:'long'
     }).format(date);
 
-    const dateStr = new Intl.DateTimeFormat('ar-SA',{
+    // Date as YYYY/MM/DD with English digits
+    const dateStr = new Intl.DateTimeFormat('en-CA',{
       timeZone:'Asia/Riyadh',
       year:'numeric',
       month:'2-digit',
       day:'2-digit'
-    }).format(date).replace(/\u200f/g,'');
+    }).format(date).replace(/-/g,'/');
 
-    const timeStr = new Intl.DateTimeFormat('ar-SA',{
+    // Time HH:MM (24h) with English digits
+    const timeStr = new Intl.DateTimeFormat('en-GB',{
       timeZone:'Asia/Riyadh',
       hour:'2-digit',
       minute:'2-digit',
-      hour12:true
-    }).format(date).replace(/\u200f/g,'');
+      hour12:false
+    }).format(date);
 
     return {dayName,dateStr,timeStr};
   }
