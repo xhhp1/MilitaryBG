@@ -277,7 +277,7 @@
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('afrad-result')">
-        <span>📄 النتيجة</span>
+        <span>📄</span>
         <span data-arrow-for="afrad-result">▼</span>
       </div>
       <div id="afrad-result" class="result-content">
@@ -312,7 +312,7 @@
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('jundi-result')">
-        <span>📄 النتيجة</span>
+        <span>📄</span>
         <span data-arrow-for="jundi-result">▼</span>
       </div>
       <div id="jundi-result" class="result-content">
@@ -343,7 +343,7 @@
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('dubbat-result')">
-        <span>📄 النتيجة</span>
+        <span>📄</span>
         <span data-arrow-for="dubbat-result">▼</span>
       </div>
       <div id="dubbat-result" class="result-content">
@@ -414,7 +414,7 @@
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('int-result')">
-        <span>📄 النتيجة</span>
+        <span>📄</span>
         <span data-arrow-for="int-result">▼</span>
       </div>
       <div id="int-result" class="result-content">
@@ -425,6 +425,7 @@
       </div>
     </div>
 
+    <div class="note">التاريخ والوقت واسم اليوم يتم احتسابها على توقيت مكة (Asia/Riyadh) بالأرقام الإنجليزية.</div>
   </div>
 
   <!-- إجازة خارجية -->
@@ -441,7 +442,7 @@
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('ext-result')">
-        <span>📄 النتيجة</span>
+        <span>📄</span>
         <span data-arrow-for="ext-result">▼</span>
       </div>
       <div id="ext-result" class="result-content">
@@ -452,6 +453,7 @@
       </div>
     </div>
 
+    <div class="note">تاريخ البداية لحظة الضغط على إنشاء القرار بتوقيت مكة، وتاريخ النهاية = البداية + مدة الإجازة (أرقام إنجليزية).</div>
   </div>
 </div>
 
@@ -530,17 +532,16 @@
       day:'2-digit'
     }).format(date).replace(/-/g,'/');
 
-    // 12-hour time with am/pm, then convert to ص / م
     const fullTime = new Intl.DateTimeFormat('en-GB',{
       timeZone:'Asia/Riyadh',
       hour:'2-digit',
       minute:'2-digit',
       hour12:true
-    }).format(date); // e.g. "05:35 pm"
+    }).format(date); // "05:35 pm"
 
     const parts = fullTime.split(' ');
-    const timePart = parts[0];              // "05:35"
-    const ampm = (parts[1] || '').toLowerCase(); // "pm" or "am"
+    const timePart = parts[0];
+    const ampm = (parts[1] || '').toLowerCase();
     const period = ampm.includes('am') ? 'ص' : 'م';
 
     return {dayName,dateStr,timeStr: timePart, period};
@@ -688,6 +689,10 @@
     intManualRow.style.display = intManualCheckbox.checked ? 'block' : 'none';
   });
 
+  function addHours(date, hours){
+    return new Date(date.getTime() + hours*3600000);
+  }
+
   function generateInternalLeave(){
     const barqia = document.getElementById('int-barqia').value || '0000';
     const personNum = document.getElementById('int-person-num').value || '1';
@@ -714,12 +719,10 @@
       if(mm < 0 || mm > 59) mm = 0;
 
       let h24 = h12 % 12;
-      if(period === 'م') h24 += 12; // convert to 24h
+      if(period === 'م') h24 += 12;
 
-      // Mecca is UTC+3 → UTC = MeccaHour - 3
       startDate = new Date(Date.UTC(y, m-1, d, h24 - 3, mm, 0, 0));
     } else {
-      // now (real current UTC) then formatted as Mecca
       startDate = new Date();
     }
 
@@ -759,7 +762,6 @@
 
     document.getElementById('int-output').value = txt;
 
-    // auto-open result box
     const res = document.getElementById('int-result');
     if(res){
       res.style.display = 'block';
@@ -816,4 +818,3 @@
 </script>
 </body>
 </html>
-
