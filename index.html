@@ -282,9 +282,9 @@
       </div>
       <div id="afrad-result" class="result-content">
         <textarea id="afrad-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('afrad-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('afrad-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -317,9 +317,9 @@
       </div>
       <div id="jundi-result" class="result-content">
         <textarea id="jundi-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('jundi-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('jundi-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -348,9 +348,9 @@
       </div>
       <div id="dubbat-result" class="result-content">
         <textarea id="dubbat-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('dubbat-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('dubbat-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -419,9 +419,9 @@
       </div>
       <div id="int-result" class="result-content">
         <textarea id="int-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
       </div>
     </div>
 
@@ -446,9 +446,9 @@
       </div>
       <div id="ext-result" class="result-content">
         <textarea id="ext-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
       </div>
     </div>
 
@@ -485,9 +485,9 @@
       </div>
       <div id="mp-est-result" class="result-content">
         <textarea id="mp-est-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('mp-est-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('mp-est-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -513,9 +513,9 @@
       </div>
       <div id="mp-hkm-result" class="result-content">
         <textarea id="mp-hkm-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('mp-hkm-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('mp-hkm-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -551,9 +551,9 @@
       </div>
       <div id="court-est-result" class="result-content">
         <textarea id="court-est-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('court-est-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('court-est-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -579,9 +579,9 @@
       </div>
       <div id="court-hkm-result" class="result-content">
         <textarea id="court-hkm-output" readonly></textarea>
-        <div class="button-row">
-          <button class="btn" onclick="copyText('court-hkm-output', this)">📋 نسخ</button>
-        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="copyText('court-hkm-output', this)">📋 نسخ</button>
       </div>
     </div>
   </div>
@@ -835,7 +835,8 @@
       let h24 = h12 % 12;
       if(period === 'م') h24 += 12;
 
-      startDate = new Date(Date.UTC(y, m-1, d, h24 - 3, mm, 0, 0));
+      // Mecca is UTC+3, Date.UTC is in UTC
+      startDate = new Date(Date.UTC(y, m-1, d, h24-3, mm, 0, 0));
     } else {
       startDate = new Date();
     }
