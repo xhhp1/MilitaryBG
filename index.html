@@ -1,363 +1,608 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>🖋مختصر المسميات الميدانية🖋</title>
-<style>
-    body {
-      background: url("https://raw.githubusercontent.com/xhhp1/mechanics/main/images/mechan.png") no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
+  <meta charset="utf-8" />
+  <title>لوحة القرارات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --btn:#2596be;
+      --bg:#111;
+      --card:#1c1c1c;
+      --text:#f5f5f5;
+      --accent:#ffd34d;
     }
-    h2 {
-      margin-top: 20px;
+    *{box-sizing:border-box;font-family:"Tahoma",Arial,sans-serif;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      padding:20px;
     }
-    input, select, button {
-      margin: 10px;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-      font-size: 16px;
+    h1{margin-top:0;text-align:center;}
+    .tabs{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-bottom:20px;
     }
-    .generate {
-      background: #28a745;
-      color: white;
-      cursor: pointer;
+    .tab-btn{
+      background:var(--btn);
+      border:none;
+      color:#fff;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:14px;
+      min-width:120px;
     }
-    .generate:hover {
-      background: #218838;
+    .tab-btn.active{
+      box-shadow:0 0 0 2px #fff3;
+      font-weight:bold;
     }
-    #resultOutput {
-      margin-top: 20px;
-      padding: 10px;
-      background: rgba(0,0,0,0.5);
-      border-radius: 10px;
-      display: inline-block;
-      font-size: 18px;
+    .tab-content{
+      display:none;
+      padding:15px;
+      background:var(--card);
+      border-radius:10px;
+    }
+    .tab-content.active{display:block;}
+    .sub-tabs{
+      display:flex;
+      gap:8px;
+      margin-bottom:15px;
+      flex-wrap:wrap;
+    }
+    .sub-tab-btn{
+      background:var(--btn);
+      border:none;
+      color:#fff;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .sub-tab-btn.active{
+      box-shadow:0 0 0 2px #fff3;
+      font-weight:bold;
+    }
+    .form-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:10px;
+      align-items:center;
+    }
+    .form-row label{
+      min-width:120px;
+      font-size:13px;
+    }
+    .form-row input,
+    .form-row select{
+      flex:1;
+      min-width:120px;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid #444;
+      background:#000;
+      color:var(--text);
+    }
+    .form-row input[type="checkbox"]{
+      flex:none;
+      min-width:auto;
+    }
+    textarea{
+      width:100%;
+      min-height:220px;
+      background:#000;
+      color:var(--accent);
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #444;
+      resize:vertical;
+      font-size:13px;
+      line-height:1.7;
+      direction:rtl;
+    }
+    .copy-btn,.generate-btn{
+      background:var(--btn);
+      border:none;
+      color:#fff;
+      padding:7px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:13px;
+      margin-top:8px;
+      margin-inline-end:8px;
+    }
+    .note{
+      font-size:12px;
+      color:#ccc;
+      margin-top:4px;
+    }
+    @media(max-width:600px){
+      .form-row{flex-direction:column;align-items:stretch;}
+      .form-row label{min-width:auto;}
     }
   </style>
-<style>
-/* CSS same as before — all inline so GitHub Pages won’t strip it */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #111;
-  color: #e0ca51;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-.toggle-buttons {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-.toggle-buttons button {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  background: #e0ca51;
-  color: #111;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.toggle-buttons button.active {
-  background: #c6b142;
-}
-.container {
-  background-color: #1b1b1b;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-  display: none;
-}
-.container.active {
-  display: block;
-}
-h1 { text-align: center; margin: 0 0 8px; }
-h2 { text-align: center; font-size: 0.95rem; margin: 0 0 12px; }
-input, select, button {
-  width: 100%;
-  padding: 8px 10px;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: none;
-  box-sizing: border-box;
-}
-input, select {
-  background: #2b2b2b;
-  color: #e0ca51;
-  font-size: 14px;
-}
-button.generate, .copy-btn {
-  background: #e0ca51;
-  color: #111;
-  font-weight: 700;
-  cursor: pointer;
-}
-button.generate:hover, .copy-btn:hover {
-  background: #c6b142;
-}
-label { display: block; font-size: 14px; margin: 6px 0; }
-.output {
-  background: #333;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-  min-height: 22px;
-  color: #e0ca51;
-  font-weight: 600;
-  word-break: break-word;
-}
-.copy-btn {
-  margin-top: 8px;
-  padding: 8px;
-  border-radius: 6px;
-}
-@media (max-width: 880px) {
-  .container { width: 100%; max-width: 520px; }
-}
-</style>
 </head>
 <body>
+  <h1>لوحــة القـرارات</h1>
 
-<div class="toggle-buttons">
-  <button type="button" id="fieldBtn" class="active">توجيهات الميدان</button>
-  <button type="button" id="jobBtn">توجيهات التوظيف</button>
-</div>
+  <!-- Main Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab-istiqala">استقالة</button>
+    <button class="tab-btn" data-tab="tab-ijazat">اجازات</button>
+    <button class="tab-btn" data-tab="tab-police">الشرطة العسكرية</button>
+    <button class="tab-btn" data-tab="tab-court">مجلس القضاء</button>
+  </div>
 
-<div class="container active" id="fieldContainer">
-  <h1>🛠 توجيهات الميدان 🛠</h1>
-  <h2>⚙️ اختصر اسمك الميداني ⚙️</h2>
+  <!-- استقالة -->
+  <div id="tab-istiqala" class="tab-content active">
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" data-sub="ist-afrad">الأفــراد</button>
+      <button class="sub-tab-btn" data-sub="ist-jundi">جندي - جندي أول - عريف</button>
+      <button class="sub-tab-btn" data-sub="ist-dubbat">الضباط</button>
+    </div>
 
-  <input type="text" id="nameInputField" placeholder="ادخل اسمك">
-  <input type="text" id="numberInputField" placeholder="كودك الميداني مثال (G-110)">
+    <!-- استقالة الأفراد -->
+    <div id="ist-afrad" class="sub-content">
+      <div class="form-row">
+        <label>رقم البرقية :</label>
+        <input type="number" id="afrad-barqia" placeholder="مثال 1234">
+      </div>
+      <div class="form-row">
+        <label>الكوبي ايدي :</label>
+        <input type="text" id="afrad-copyid" placeholder="@ID">
+      </div>
+      <div class="form-row">
+        <label>اسم و كود الفرد :</label>
+        <input type="text" id="afrad-namecode" placeholder="مثال حمد [CD | G-020]">
+      </div>
+      <textarea id="afrad-output" readonly></textarea><br>
+      <button class="copy-btn" data-target="afrad-output">نسخ النص</button>
+    </div>
 
-  <select id="rankSelect">
-    <option value="">اختر رتبتك</option>
-    <option value="فني">فني</option>
-    <option value="اشراف منطقه">اشراف منطقه</option>
-    <option value="اشراف منطقه متدرب">اشراف منطقه متدرب</option>
-    <option value="اشراف ميداني">اشراف ميداني</option>
-    <option value="اشراف عام">اشراف عام</option>
-    <option value="طوارئ وإنقاذ">طوارئ وإنقاذ</option>
-  </select>
+    <!-- استقالة جندي / جندي أول / عريف -->
+    <div id="ist-jundi" class="sub-content" style="display:none;">
+      <div class="form-row">
+        <label>رقم البرقية :</label>
+        <input type="number" id="jundi-barqia" placeholder="مثال 1234">
+      </div>
+      <div class="form-row">
+        <label>منشن العسكري :</label>
+        <input type="text" id="jundi-mention" placeholder="@منشن العسكري">
+      </div>
+      <div class="form-row">
+        <label>اسم الشخص :</label>
+        <input type="text" id="jundi-name" placeholder="مثال حمد بن عسكر">
+      </div>
+      <div class="form-row">
+        <label>كود الشخص [R-000] :</label>
+        <input type="text" id="jundi-code" placeholder="مثال R-001">
+      </div>
+      <div class="form-row">
+        <label>السبب (الرتبة) :</label>
+        <select id="jundi-rank">
+          <option value="جندي">جندي</option>
+          <option value="جندي أول">جندي أول</option>
+          <option value="عريف">عريف</option>
+        </select>
+      </div>
+      <textarea id="jundi-output" readonly></textarea><br>
+      <button class="copy-btn" data-target="jundi-output">نسخ النص</button>
+    </div>
 
-  <select id="subRegion" style="display:none;">
-    <option value="">اختر توجيهك</option>
-    <option value="اشراف منطقة لوس">اشراف منطقة لوس</option>
-    <option value="اشراف منطقة ساندي">اشراف منطقة ساندي</option>
-    <option value="اشراف منطقة بوليتو">اشراف منطقة بوليتو</option>
-    <option value="اشراف منطقة بوليتو + ساندي">اشراف منطقة بوليتو + ساندي</option>
-  </select>
+    <!-- استقالة الضباط -->
+    <div id="ist-dubbat" class="sub-content" style="display:none;">
+      <div class="form-row">
+        <label>رقم البرقية :</label>
+        <input type="number" id="dubbat-barqia" placeholder="مثال 1234">
+      </div>
+      <div class="form-row">
+        <label>الكوبي ايدي :</label>
+        <input type="text" id="dubbat-copyid" placeholder="@ID">
+      </div>
+      <div class="form-row">
+        <label>إسم العسكري :</label>
+        <input type="text" id="dubbat-name" placeholder="هنا اسمه">
+      </div>
+      <div class="form-row">
+        <label>الكود العسكري :</label>
+        <input type="text" id="dubbat-milcode" placeholder="كود الضابط هنا">
+      </div>
+      <div class="form-row">
+        <label>الرتبة العسكرية :</label>
+        <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
+      </div>
+      <textarea id="dubbat-output" readonly></textarea><br>
+      <button class="copy-btn" data-target="dubbat-output">نسخ النص</button>
+    </div>
+  </div>
 
-  <select id="subRegionTrainee" style="display:none;">
-    <option value="">اختر توجيهك</option>
-    <option value="اشراف منطقة لوس متدرب">اشراف منطقة لوس متدرب</option>
-    <option value="اشراف منطقة ساندي متدرب">اشراف منطقة ساندي متدرب</option>
-    <option value="اشراف منطقة بوليتو متدرب">اشراف منطقة بوليتو متدرب</option>
-    <option value="اشراف منطقة بوليتو + ساندي متدرب">اشراف منطقة بوليتو + ساندي متدرب</option>
-  </select>
+  <!-- اجازات -->
+  <div id="tab-ijazat" class="tab-content">
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" data-sub="ij-int">إجازة داخلية</button>
+      <button class="sub-tab-btn" data-sub="ij-ext">إجازة خارجية</button>
+    </div>
 
-  <select id="regionNames" style="display:none;">
-    <option value="">اختر اسم توجيهك</option>
-    <option value="لوس">لوس</option>
-    <option value="ساندي">ساندي</option>
-    <option value="بوليتو">بوليتو</option>
-    <option value="جزيرة">جزيرة</option>
-    <option value="الموجه الميداني">الموجه الميداني</option>
-    <option value="نائب الموجه الميداني">نائب الموجه الميداني</option>
-    <option value="مركز الاتصالات">مركز الاتصالات</option>
-  </select>
+    <!-- إجازة داخلية -->
+    <div id="ij-int" class="sub-content">
+      <div class="form-row">
+        <label>برقية رقم :</label>
+        <input type="number" id="int-barqia" placeholder="مثال 1234">
+      </div>
+      <div class="form-row">
+        <label>رقم الفرد :</label>
+        <input type="number" id="int-person-num" placeholder="يظهر في ( 1 )">
+      </div>
+      <div class="form-row">
+        <label>الإجازة لمن ؟</label>
+        <select id="int-for">
+          <option value="أفــــراد">افراد</option>
+          <option value="ضباط">ضباط</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>الكوبي ايدي (منشن العسكري) :</label>
+        <input type="text" id="int-copyid" placeholder="@ID">
+      </div>
+      <div class="form-row">
+        <label>مدة الاجازة (بالساعات) :</label>
+        <input type="number" id="int-duration" placeholder="مثال 24">
+      </div>
+      <div class="form-row">
+        <label>عدد الساعات المتبقية (قبل الإجازة) :</label>
+        <input type="number" id="int-remaining-before" placeholder="رصيدك قبل الإجازة">
+      </div>
 
-  <label><input type="checkbox" id="fleetToggle"> هل تريد إضافة خدمة الأسطول؟</label>
-  <select id="fleetBox" style="display:none;">
-    <option value="">اختر خدمة الاسطول</option>
-    <option value="اسطول لوس">اسطول لوس</option>
-    <option value="اسطول ساندي">اسطول ساندي</option>
-    <option value="اسطول بوليتو">اسطول بوليتو</option>
-    <option value="اسطول جزيرة">اسطول جزيرة</option>
-    <option value="اسطول متوسط لوس">اسطول متوسط لوس</option>
-    <option value="اسطول متوسط ساندي">اسطول متوسط ساندي</option>
-    <option value="اسطول متوسط بوليتو">اسطول متوسط بوليتو</option>
-    <option value="اسطول متوسط جزيرة">اسطول متوسط جزيرة</option>
-  </select>
+      <div class="form-row">
+        <label>إدخال وقت بداية الإجازة يدوياً ؟</label>
+        <input type="checkbox" id="int-manual-time">
+        <span class="note">في حال التفعيل استخدم الحقل أسفل</span>
+      </div>
+      <div class="form-row" id="int-manual-time-row" style="display:none;">
+        <label>وقت بداية الإجازة (مكة) :</label>
+        <input type="datetime-local" id="int-start-dt">
+      </div>
 
-  <label><input type="checkbox" id="minaTech"> فني ميناء</label>
-  <label><input type="checkbox" id="masarat"> مسارات التعديل و التزويد</label>
-  <input type="text" id="masarInput" placeholder="اكتب رقم المسار فقط مثال (4)" style="display:none;">
-  <label><input type="checkbox" id="controlUnit"> وحدة تحكم</label>
-  <select id="controlOptions" style="display:none;">
-    <option value="">اختر نوع وحدة التحكم</option>
-    <option value="فني مركز تحكم">فني مركز تحكم</option>
-    <option value="فني خدمات طرق">فني خدمات طرق</option>
-  </select>
+      <div class="form-row">
+        <label>توقيعك و اعتمادك :</label>
+        <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
+      </div>
 
-  <button type="button" class="generate" onclick="generateResult()">🗞 اضغط هنا لأظهار اسمك 🗞</button>
-  <div class="output" id="resultOutput"></div>
-  <button type="button" class="copy-btn" onclick="copyText('resultOutput')">🔗 اضغط هنا للنسخ 🔗</button>
-</div>
+      <button class="generate-btn" id="int-generate">إنشاء القرار (داخلي)</button>
+      <textarea id="int-output" readonly></textarea><br>
+      <button class="copy-btn" data-target="int-output">نسخ النص</button>
+      <div class="note">التاريخ والوقت واسم اليوم محسوبين على توقيت مكة (Asia/Riyadh).</div>
+    </div>
 
-<div class="container" id="jobContainer">
-  <h1>📜 توجيهات التوظيف 📜</h1>
-  <h2>📌 اختصر توجيهك في التوظيف 📌</h2>
+    <!-- إجازة خارجية -->
+    <div id="ij-ext" class="sub-content" style="display:none;">
+      <div class="form-row">
+        <label>برقية رقم :</label>
+        <input type="number" id="ext-barqia" placeholder="مثال 1234">
+      </div>
+      <div class="form-row">
+        <label>المدة (بالأيام) :</label>
+        <input type="number" id="ext-days" placeholder="مثال 3">
+      </div>
+      <button class="generate-btn" id="ext-generate">إنشاء القرار (خارجية)</button>
+      <textarea id="ext-output" readonly></textarea><br>
+      <button class="copy-btn" data-target="ext-output">نسخ النص</button>
+      <div class="note">تاريخ البداية وقت الضغط على زر إنشاء القرار حسب توقيت مكة، وتاريخ النهاية بعدد الأيام المدخلة.</div>
+    </div>
+  </div>
 
-  <input type="text" id="nameInput" placeholder="ادخل اسمك">
-  <input type="text" id="numberInput" placeholder="كودك الميداني مثال (G-110)">
+  <!-- الشرطة العسكرية -->
+  <div id="tab-police" class="tab-content">
+    <p style="text-align:center;">الشرطة العسكرية – يمكن إضافة النماذج الخاصة لاحقاً.</p>
+  </div>
 
-  <label style="display:block; text-align:right; margin-top:6px">اختار توجيهك حسب التقرير:</label>
-  <select id="roleSelect">
-    <option value="">اختر توجيهك</option>
-    <option>نائب مدير قسم شؤون التوظيف</option>
-    <option>اشراف التوظيف</option>
-    <option>مسؤول المقابلة 1</option>
-    <option>مسؤول المقابلة 2</option>
-    <option>مسؤول المقابلة 3</option>
-    <option>مسؤول المقابلة 4</option>
-    <option>مسؤول المقابلة 5</option>
-    <option>نائب مسؤول مقابله 1</option>
-    <option>نائب مسؤول مقابله 2</option>
-    <option>نائب مسؤول مقابله 3</option>
-    <option>نائب مسؤول مقابله 4</option>
-    <option>نائب مسؤول مقابله 5</option>
-    <option>مسؤول تنظيم 1</option>
-    <option>مسؤول تنظيم 2</option>
-    <option>مسؤول تنظيم 3</option>
-    <option>مسؤول تنظيم 4</option>
-    <option>تنظيم 1</option>
-    <option>تنظيم 2</option>
-    <option>تنظيم 3</option>
-    <option>تنظيم 4</option>
-    <option>باص 1</option>
-    <option>باص 2</option>
-    <option>باص 3</option>
-    <option>باص 4</option>
-  </select>
+  <!-- مجلس القضاء -->
+  <div id="tab-court" class="tab-content">
+    <p style="text-align:center;">مجلس القضاء – يمكن إضافة النماذج الخاصة لاحقاً.</p>
+  </div>
 
-  <button type="button" class="generate" onclick="generateNickname()">🗞 اضغط هنا لأظهار اسمك 🗞</button>
-  <div class="output" id="output"></div>
-  <button type="button" class="copy-btn" onclick="copyText('output')">🔗 اضغط هنا للنسخ 🔗</button>
-</div>
-
-<script>
-function isValidSelection(val) {
-  return val && String(val).trim() !== "" && !String(val).trim().startsWith("اختر");
-}
-function copyText(id) {
-  const text = document.getElementById(id).innerText;
-  if (text.trim()) navigator.clipboard.writeText(text);
-}
-document.getElementById("fieldBtn").onclick = function() {
-  document.getElementById("fieldContainer").classList.add("active");
-  document.getElementById("jobContainer").classList.remove("active");
-  this.classList.add("active");
-  document.getElementById("jobBtn").classList.remove("active");
-};
-document.getElementById("jobBtn").onclick = function() {
-  document.getElementById("jobContainer").classList.add("active");
-  document.getElementById("fieldContainer").classList.remove("active");
-  this.classList.add("active");
-  document.getElementById("fieldBtn").classList.remove("active");
-};
-document.addEventListener("DOMContentLoaded", function () {
-  const rankSelect = document.getElementById("rankSelect");
-  rankSelect.onchange = function () {
-    document.getElementById("subRegion").style.display =
-      (this.value === "اشراف منطقه") ? "block" : "none";
-    document.getElementById("subRegionTrainee").style.display =
-      (this.value === "اشراف منطقه متدرب") ? "block" : "none";
-    document.getElementById("regionNames").style.display =
-      (this.value === "فني") ? "block" : "none";
-  };
-  document.getElementById("fleetToggle").onchange = function () {
-    document.getElementById("fleetBox").style.display = this.checked ? "block" : "none";
-  };
-  const minaTech = document.getElementById("minaTech");
-  const masarat = document.getElementById("masarat");
-  minaTech.onchange = function () {
-    if (this.checked) {
-      masarat.checked = false;
-      document.getElementById("masarInput").style.display = "none";
+  <script>
+    // ===== Helpers for Mecca time =====
+    function addHours(date, hours){
+      return new Date(date.getTime() + hours*3600000);
     }
-  };
-  masarat.onchange = function () {
-    document.getElementById("masarInput").style.display = this.checked ? "block" : "none";
-    if (this.checked) minaTech.checked = false;
-  };
-  document.getElementById("controlUnit").onchange = function () {
-    document.getElementById("controlOptions").style.display = this.checked ? "block" : "none";
-  };
-  const num1 = document.getElementById("numberInputField");
-  const num2 = document.getElementById("numberInput");
-  function handleGPrefix(el) {
-    let digits = (el.value || "").replace(/[^0-9]/g, "");
-    el.value = digits ? ("G-" + digits) : "";
-  }
-  num1.oninput = function () { handleGPrefix(this); };
-  num2.oninput = function () { handleGPrefix(this); };
-  num1.onpaste = function () { setTimeout(() => handleGPrefix(this), 0); };
-  num2.onpaste = function () { setTimeout(() => handleGPrefix(this), 0); };
-});
-function generateResult() {
-  const name = (document.getElementById("nameInputField").value || "").trim();
-  const number = (document.getElementById("numberInputField").value || "").trim();
-  const rank = document.getElementById("rankSelect").value;
-  const subRegion = document.getElementById("subRegion").value;
-  const subRegionTrainee = document.getElementById("subRegionTrainee").value;
-  const regionName = document.getElementById("regionNames").value;
-  const fleetChecked = document.getElementById("fleetToggle").checked;
-  const fleetVal = document.getElementById("fleetBox").value;
-  const minaTechChecked = document.getElementById("minaTech").checked;
-  const masaratChecked = document.getElementById("masarat").checked;
-  const masarVal = (document.getElementById("masarInput").value || "").trim();
-  const controlChecked = document.getElementById("controlUnit").checked;
-  const controlVal = document.getElementById("controlOptions").value;
-  if (!name || !number) {
-    document.getElementById("resultOutput").innerText = "يرجى ملء الاسم والكود.";
-    return;
-  }
-  const parts = [];
-  if (!minaTechChecked && !masaratChecked) parts.push(name);
-  parts.push(number);
-  if (minaTechChecked) {
-    parts.push("فني ميناء");
-  } else if (masaratChecked && masarVal) {
-    parts.push("مسار " + masarVal);
-  } else {
-    if (isValidSelection(rank)) {
-      if (rank === "اشراف منطقه" && isValidSelection(subRegion)) {
-        parts.push(subRegion);
-      } else if (rank === "اشراف منطقه متدرب" && isValidSelection(subRegionTrainee)) {
-        parts.push(subRegionTrainee);
-      } else if (rank === "فني" && isValidSelection(regionName)) {
-        parts.push(regionName);
-      } else if (rank !== "فني") {
-        parts.push(rank);
+    function addDays(date, days){
+      return new Date(date.getTime() + days*86400000);
+    }
+    function formatMecca(date){
+      const dayName = new Intl.DateTimeFormat('ar-SA',{
+        timeZone:'Asia/Riyadh',
+        weekday:'long'
+      }).format(date);
+      const dateStr = new Intl.DateTimeFormat('ar-SA',{
+        timeZone:'Asia/Riyadh',
+        year:'numeric',
+        month:'2-digit',
+        day:'2-digit'
+      }).format(date).replace(/\u200f/g,'');
+      const timeStr = new Intl.DateTimeFormat('ar-SA',{
+        timeZone:'Asia/Riyadh',
+        hour:'2-digit',
+        minute:'2-digit',
+        hour12:true
+      }).format(date).replace(/\u200f/g,'');
+      return {dayName,dateStr,timeStr};
+    }
+
+    // ===== Main tabs =====
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ===== Sub tabs (استقالة + اجازات) =====
+    function setupSubTabs(containerId){
+      const container = document.getElementById(containerId);
+      const buttons = container.querySelectorAll('.sub-tab-btn');
+      buttons.forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          buttons.forEach(b=>b.classList.remove('active'));
+          container.querySelectorAll('.sub-content').forEach(c=>c.style.display='none');
+          btn.classList.add('active');
+          container.querySelector('#'+btn.dataset.sub).style.display='block';
+        });
+      });
+    }
+    setupSubTabs('tab-istiqala');
+    setupSubTabs('tab-ijazat');
+
+    // ===== Copy Buttons =====
+    document.querySelectorAll('.copy-btn').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const targetId = btn.dataset.target;
+        const ta = document.getElementById(targetId);
+        if(!ta) return;
+        try{
+          await navigator.clipboard.writeText(ta.value);
+          const oldText = btn.textContent;
+          btn.textContent = '✓ تم النسخ';
+          setTimeout(()=>btn.textContent = oldText,1500);
+        }catch(e){
+          // لا تنبيه – فقط تجاهل
+        }
+      });
+    });
+
+    // ===== استقالة الأفراد =====
+    function updateIstAFrad(){
+      const barqia = document.getElementById('afrad-barqia').value || '0000';
+      const copyId = document.getElementById('afrad-copyid').value || 'الكوبي ايدي';
+      const nameCode = document.getElementById('afrad-namecode').value || 'الاسم و الكود';
+
+      const text =
+`**﷽**
+
+\`برقيه رقم :\` ** ${barqia} **
+
+\`الموضوع : \` ** استقالة **
+
+**بعد ماتم مناقشته مع المسؤولين وبعد مراجعة طلب الإستقالة تم قبول استقالة المدعو :**
+
+<@${copyId}>     \`${nameCode}\`
+
+
+** شاكرين مجهوداتك الملحوظه وسائلين المولى عز وجل التوفيق في وجهتك القادمة **
+
+
+\`توقيـع  :\` <@&1333955330283147285> 
+
+\`اعـتـماد  : \`  
+
+**مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
+
+
+|| <@&1333955330283147285>  ||`;
+
+      document.getElementById('afrad-output').value = text;
+    }
+    ['afrad-barqia','afrad-copyid','afrad-namecode'].forEach(id=>{
+      document.getElementById(id).addEventListener('input',updateIstAFrad);
+    });
+    updateIstAFrad();
+
+    // ===== استقالة جندي / جندي أول / عريف =====
+    function updateIstJundi(){
+      const barqia = document.getElementById('jundi-barqia').value || '0000';
+      const mention = document.getElementById('jundi-mention').value || '@منشن العسكري';
+      const name = document.getElementById('jundi-name').value || 'اسم الشخص';
+      const code = document.getElementById('jundi-code').value || 'R-000';
+      const rank = document.getElementById('jundi-rank').value || 'جندي';
+      const days = (rank === 'عريف') ? 7 : 14;
+
+      const text =
+`** ﷽ **
+
+\`برقيه رقم :\` **${barqia}**
+
+\`الموضوع :\`** فصل **
+
+\`قرار صادر من الشؤون الإدارية بحرس الحدود \`
+
+\`بفصل العسكري:\`  ** ${mention} **  **\`[${code}] ${name} \`**
+
+\`غرامة مليون يتم تسليمها للشؤون الإدارية و منع من التوظيف لمدة ${days} ايام\` 
+
+\`السبب :\` ** استقاله برتبه { ${rank} }  **
+
+
+\`توقيـع  :\` <@&1333955330283147285> 
+
+\`اعـتـماد  :\` 
+
+**مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
+
+|| <@&1333955330283147285>||`;
+
+      document.getElementById('jundi-output').value = text;
+    }
+    ['jundi-barqia','jundi-mention','jundi-name','jundi-code','jundi-rank']
+      .forEach(id=>document.getElementById(id).addEventListener('input',updateIstJundi));
+    updateIstJundi();
+
+    // ===== استقالة الضباط =====
+    function updateIstDubbat(){
+      const barqia = document.getElementById('dubbat-barqia').value || '0000';
+      const copyId = document.getElementById('dubbat-copyid').value || 'الكوبي ايدي';
+      const name = document.getElementById('dubbat-name').value || 'هنا اسمه';
+      const milcode = document.getElementById('dubbat-milcode').value || 'كود الضابط هنا';
+      const rank = document.getElementById('dubbat-rank').value || 'الرتب هنا';
+
+      const text =
+`# نموذج إستقالة الضباط 
+
+** ﷽
+
+\`برقيه رقم :\` ${barqia}
+
+\`الموضوع : \`  إستقالة 
+
+بعد ماتم مناقشته مع المسؤولين وبعد مراجعة طلب الإستقالة تم قبول استقالة المدعو :
+
+ <@${copyId}> 
+
+ \` إسم العسكري : ${name}  \`
+
+\` الكود العسكري : ${milcode}  \`
+
+\` الرتبة العسكرية : ${rank}  \`
+
+ شاكرين مجهوداتك الملحوظه وسائلين المولى عز وجل التوفيق في وجهتك القادمة 
+
+\` توقيـع :\`
+
+ <@&1333955330283147285>   
+
+\` إعتماد : \`
+
+ مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
+
+
+** ترسل نسخه إلى الـ <@&1333955330283147285>    للإعتماد والتنفيذ **`;
+      document.getElementById('dubbat-output').value = text;
+    }
+    ['dubbat-barqia','dubbat-copyid','dubbat-name','dubbat-milcode','dubbat-rank']
+      .forEach(id=>document.getElementById(id).addEventListener('input',updateIstDubbat));
+    updateIstDubbat();
+
+    // ===== إجازة داخلية =====
+    const intManualCheckbox = document.getElementById('int-manual-time');
+    const intManualRow = document.getElementById('int-manual-time-row');
+    intManualCheckbox.addEventListener('change',()=>{
+      intManualRow.style.display = intManualCheckbox.checked ? 'flex' : 'none';
+    });
+
+    function generateInternalLeave(){
+      const barqia = document.getElementById('int-barqia').value || '0000';
+      const personNum = document.getElementById('int-person-num').value || '1';
+      const target = document.getElementById('int-for').value || 'أفــــراد';
+      const copyId = document.getElementById('int-copyid').value || 'الكوبي ايدي';
+      const durationHours = parseFloat(document.getElementById('int-duration').value || '0');
+      const remainingBefore = parseFloat(document.getElementById('int-remaining-before').value || '0');
+      const signer = document.getElementById('int-signer').value || 'الكوبي ايدي';
+
+      const remainingAfter = Math.max(remainingBefore - durationHours,0);
+
+      let startDate;
+      if(intManualCheckbox.checked){
+        const val = document.getElementById('int-start-dt').value;
+        if(val){
+          startDate = new Date(val);
+        }else{
+          startDate = new Date();
+        }
+      }else{
+        startDate = new Date(); // الآن
       }
+      const endDate = addHours(startDate,durationHours);
+
+      const fmtStart = formatMecca(startDate);
+      const fmtEnd = formatMecca(endDate);
+
+      const text =
+`**﷽**
+
+\`برقيه رقم :\` **${barqia}**
+
+\`الموضوع : \`** إجازه داخليه ( ${target} ) (  ${personNum} ) **
+
+\`منشن العسكري :  \`  ** <@${copyId}> ** 
+
+**\`مدة الاجازة : ${durationHours} ســاعـه \` ** 
+
+**من يوم  ${fmtStart.dayName}   | تاريخ ${fmtStart.dateStr} |  الساعة ${fmtStart.timeStr} م.ص **
+
+** الى يوم ${fmtEnd.dayName}  | تاريخ ${fmtEnd.dateStr} | الساعة ${fmtEnd.timeStr} م.ص **
+
+** \`عدد الساعات المتبقية : \` ${remainingAfter} ساعـــه ** 
+ 
+**\`محرر الأجازة :  \` ** ${signer}
+
+
+\`توقيـع  :\` <@&1333955330283147285> 
+ 
+\`اعـتـماد  :\`  
+
+** مسؤول مكتب الشؤون الإداريه : <@1211838071524565023> **
+
+||<@&1333955330283147285> ||
+||<@&1333955142164156477>||`;
+
+      document.getElementById('int-output').value = text;
     }
-    if (fleetChecked && isValidSelection(fleetVal)) parts.push(fleetVal);
-    if (controlChecked && isValidSelection(controlVal)) parts.push(controlVal);
-  }
-  document.getElementById("resultOutput").innerText = parts.join(" | ");
-}
-function generateNickname() {
-  const name = (document.getElementById("nameInput").value || "").trim();
-  const number = (document.getElementById("numberInput").value || "").trim();
-  const role = document.getElementById("roleSelect").value;
-  if (!name || !number || !isValidSelection(role)) {
-    document.getElementById("output").innerText = "يرجى ملء جميع الحقول.";
-    return;
-  }
-  document.getElementById("output").innerText = [name, number, role].join(" | ");
-}
-</script>
+    document.getElementById('int-generate').addEventListener('click',generateInternalLeave);
+    // مبدئياً توليد أولي
+    generateInternalLeave();
+
+    // ===== إجازة خارجية =====
+    function generateExternalLeave(){
+      const barqia = document.getElementById('ext-barqia').value || '0000';
+      const days = parseInt(document.getElementById('ext-days').value || '0',10);
+      const now = new Date();
+      const start = now;
+      const end = addDays(start,Math.max(days,0));
+
+      const fmtStart = formatMecca(start);
+      const fmtEnd = formatMecca(end);
+
+      const text =
+`** ﷽**
+
+
+\`برقية رقم :\`**${barqia}**
+
+\`الموضوع  :\` ** اجازة خارجية**
+
+
+\`المدة :\` ( **${days} ايام  ** ) \`من تاريخ\` **${fmtStart.dateStr}الى ${fmtEnd.dateStr}**
+
+
+\`وذلك يمنع عليك التواجد في المقاطعة الا بعد كسر الاجازة خلاف ذلك تعرض نفسك للفصل\`
+
+
+\`توقيع :\` <@&1333955330283147285> 
+
+\`أعتماد :\`  <@1211838071524565023> 
+
+|| <@&1333955330283147285>  ||`;
+      document.getElementById('ext-output').value = text;
+    }
+    document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
+    generateExternalLeave();
+  </script>
 </body>
 </html>
 
