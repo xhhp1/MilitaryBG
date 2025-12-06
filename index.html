@@ -1,389 +1,418 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <title>لوحة القرارات</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{
-      --btn:#2596be;
-      --bg:#111;
-      --card:#1c1c1c;
-      --text:#f5f5f5;
-      --accent:#ffd34d;
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>💼الشؤون الإدارية💼</title>
+<style>
+  :root{
+    --gold:#e0ca51;
+    --bg:#222;
+    --panel-bg: rgba(0,0,0,0.85);
+    --btn:#2596be; /* لون الأزرار المطلوب */
+  }
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Tahoma, Arial, sans-serif;
+    background: url("https://raw.githubusercontent.com/xhhp1/mechanics/main/images/mechan.png") no-repeat center center fixed;
+    background-size: cover;
+    color:var(--gold);
+    text-align:center;
+    padding:20px;
+    box-sizing:border-box;
+  }
+  h1{ margin:12px 0 18px; font-size:28px; }
+
+  /* === Main menu (4 tabs) === */
+  .menu{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .menu button{
+    padding:18px 36px;
+    font-size:20px;
+    background:var(--btn);
+    color:#111;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+    min-width:170px;
+  }
+  .menu button:hover{
+    background:#2fa4d0;
+    transform:translateY(-2px);
+  }
+  .menu button.active{
+    box-shadow:0 0 0 2px rgba(255,255,255,0.4);
+  }
+
+  /* === Container for each tab === */
+  .container{
+    display:none;
+    max-width:980px;
+    margin: 12px auto;
+    background: var(--panel-bg);
+    border-radius:12px;
+    padding:18px;
+    text-align:right;
+    box-sizing:border-box;
+  }
+  .container.active{ display:block; }
+  .container h2{ margin-top:0; color:var(--gold); text-align:center; }
+
+  label{
+    display:block;
+    margin:10px 0 6px;
+    font-weight:bold;
+    text-align:right;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"],
+  select,
+  textarea{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid var(--gold);
+    background:var(--bg);
+    color:var(--gold);
+    font-size:15px;
+    box-sizing:border-box;
+  }
+  textarea{
+    resize:vertical;
+    min-height:200px;
+    direction:ltr;
+    text-align:left;
+    white-space:pre-wrap;
+  }
+
+  .button-row{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    padding:12px 22px;
+    background:var(--btn);
+    color:#111;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+  }
+  .btn:hover{ background:#2fa4d0; }
+
+  .note{
+    font-size:12px;
+    opacity:0.85;
+    margin-top:6px;
+  }
+
+  /* === Sub tabs (inside استقالة / اجازات) === */
+  .sub-menu{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .sub-menu button{
+    padding:10px 18px;
+    font-size:15px;
+    background:var(--btn);
+    color:#111;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  .sub-menu button:hover{
+    background:#2fa4d0;
+    transform:translateY(-1px);
+  }
+  .sub-menu button.active{
+    box-shadow:0 0 0 2px rgba(255,255,255,0.4);
+  }
+  .sub-section{ display:none; }
+  .sub-section.active{ display:block; }
+
+  .manual-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
+  }
+  .manual-wrap input[type="checkbox"]{
+    width:auto;
+  }
+
+  @media (max-width:720px){
+    .menu button{
+      padding:14px 18px;
+      font-size:18px;
+      min-width:140px;
     }
-    *{box-sizing:border-box;font-family:"Tahoma",Arial,sans-serif;}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      padding:20px;
-    }
-    h1{margin-top:0;text-align:center;}
-    .tabs{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-    .tab-btn{
-      background:var(--btn);
-      border:none;
-      color:#fff;
-      padding:8px 14px;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:14px;
-      min-width:120px;
-    }
-    .tab-btn.active{
-      box-shadow:0 0 0 2px #fff3;
-      font-weight:bold;
-    }
-    .tab-content{
-      display:none;
-      padding:15px;
-      background:var(--card);
-      border-radius:10px;
-    }
-    .tab-content.active{display:block;}
-    .sub-tabs{
-      display:flex;
-      gap:8px;
-      margin-bottom:15px;
-      flex-wrap:wrap;
-    }
-    .sub-tab-btn{
-      background:var(--btn);
-      border:none;
-      color:#fff;
-      padding:6px 10px;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:13px;
-    }
-    .sub-tab-btn.active{
-      box-shadow:0 0 0 2px #fff3;
-      font-weight:bold;
-    }
-    .form-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:10px;
-      align-items:center;
-    }
-    .form-row label{
-      min-width:120px;
-      font-size:13px;
-    }
-    .form-row input,
-    .form-row select{
-      flex:1;
-      min-width:120px;
-      padding:6px 8px;
-      border-radius:6px;
-      border:1px solid #444;
-      background:#000;
-      color:var(--text);
-    }
-    .form-row input[type="checkbox"]{
-      flex:none;
-      min-width:auto;
-    }
-    textarea{
-      width:100%;
-      min-height:220px;
-      background:#000;
-      color:var(--accent);
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #444;
-      resize:vertical;
-      font-size:13px;
-      line-height:1.7;
-      direction:rtl;
-    }
-    .copy-btn,.generate-btn{
-      background:var(--btn);
-      border:none;
-      color:#fff;
-      padding:7px 14px;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:13px;
-      margin-top:8px;
-      margin-inline-end:8px;
-    }
-    .note{
-      font-size:12px;
-      color:#ccc;
-      margin-top:4px;
-    }
-    @media(max-width:600px){
-      .form-row{flex-direction:column;align-items:stretch;}
-      .form-row label{min-width:auto;}
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <h1>لوحــة القـرارات</h1>
 
-  <!-- Main Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="tab-istiqala">استقالة</button>
-    <button class="tab-btn" data-tab="tab-ijazat">اجازات</button>
-    <button class="tab-btn" data-tab="tab-police">الشرطة العسكرية</button>
-    <button class="tab-btn" data-tab="tab-court">مجلس القضاء</button>
+<h1>📋 الشؤون الإدارية 📋</h1>
+
+<div class="menu">
+  <button class="active" onclick="showTab('istBox', this)">استقالة</button>
+  <button onclick="showTab('vacBox', this)">اجازات</button>
+  <button onclick="showTab('mpBox', this)">الشرطة العسكرية</button>
+  <button onclick="showTab('courtBox', this)">مجلس القضاء</button>
+</div>
+
+<!-- =============== TAB 1: استقالة =============== -->
+<div id="istBox" class="container active">
+  <h2>📝 نماذج الاستقالة 📝</h2>
+
+  <div class="sub-menu">
+    <button class="active" onclick="showSub('ist-afrad', this, 'istBox')">الأفراد</button>
+    <button onclick="showSub('ist-jundi', this, 'istBox')">جندي - جندي أول - عريف</button>
+    <button onclick="showSub('ist-dubbat', this, 'istBox')">الضباط</button>
   </div>
 
-  <!-- استقالة -->
-  <div id="tab-istiqala" class="tab-content active">
-    <div class="sub-tabs">
-      <button class="sub-tab-btn active" data-sub="ist-afrad">الأفــراد</button>
-      <button class="sub-tab-btn" data-sub="ist-jundi">جندي - جندي أول - عريف</button>
-      <button class="sub-tab-btn" data-sub="ist-dubbat">الضباط</button>
-    </div>
+  <!-- استقالة الأفراد -->
+  <div id="ist-afrad" class="sub-section active">
+    <label>رقم البرقية</label>
+    <input type="number" id="afrad-barqia" placeholder="0000">
 
-    <!-- استقالة الأفراد -->
-    <div id="ist-afrad" class="sub-content">
-      <div class="form-row">
-        <label>رقم البرقية :</label>
-        <input type="number" id="afrad-barqia" placeholder="مثال 1234">
-      </div>
-      <div class="form-row">
-        <label>الكوبي ايدي :</label>
-        <input type="text" id="afrad-copyid" placeholder="@ID">
-      </div>
-      <div class="form-row">
-        <label>اسم و كود الفرد :</label>
-        <input type="text" id="afrad-namecode" placeholder="مثال حمد [CD | G-020]">
-      </div>
-      <textarea id="afrad-output" readonly></textarea><br>
-      <button class="copy-btn" data-target="afrad-output">نسخ النص</button>
-    </div>
+    <label>الكوبي ايدي</label>
+    <input type="text" id="afrad-copyid" placeholder="مثال 123456789012345678">
 
-    <!-- استقالة جندي / جندي أول / عريف -->
-    <div id="ist-jundi" class="sub-content" style="display:none;">
-      <div class="form-row">
-        <label>رقم البرقية :</label>
-        <input type="number" id="jundi-barqia" placeholder="مثال 1234">
-      </div>
-      <div class="form-row">
-        <label>منشن العسكري :</label>
-        <input type="text" id="jundi-mention" placeholder="@منشن العسكري">
-      </div>
-      <div class="form-row">
-        <label>اسم الشخص :</label>
-        <input type="text" id="jundi-name" placeholder="مثال حمد بن عسكر">
-      </div>
-      <div class="form-row">
-        <label>كود الشخص [R-000] :</label>
-        <input type="text" id="jundi-code" placeholder="مثال R-001">
-      </div>
-      <div class="form-row">
-        <label>السبب (الرتبة) :</label>
-        <select id="jundi-rank">
-          <option value="جندي">جندي</option>
-          <option value="جندي أول">جندي أول</option>
-          <option value="عريف">عريف</option>
-        </select>
-      </div>
-      <textarea id="jundi-output" readonly></textarea><br>
-      <button class="copy-btn" data-target="jundi-output">نسخ النص</button>
-    </div>
+    <label>اسم و كود الفرد</label>
+    <input type="text" id="afrad-namecode" placeholder="مثال حمد بن عسكر [CD | G-020]">
 
-    <!-- استقالة الضباط -->
-    <div id="ist-dubbat" class="sub-content" style="display:none;">
-      <div class="form-row">
-        <label>رقم البرقية :</label>
-        <input type="number" id="dubbat-barqia" placeholder="مثال 1234">
-      </div>
-      <div class="form-row">
-        <label>الكوبي ايدي :</label>
-        <input type="text" id="dubbat-copyid" placeholder="@ID">
-      </div>
-      <div class="form-row">
-        <label>إسم العسكري :</label>
-        <input type="text" id="dubbat-name" placeholder="هنا اسمه">
-      </div>
-      <div class="form-row">
-        <label>الكود العسكري :</label>
-        <input type="text" id="dubbat-milcode" placeholder="كود الضابط هنا">
-      </div>
-      <div class="form-row">
-        <label>الرتبة العسكرية :</label>
-        <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
-      </div>
-      <textarea id="dubbat-output" readonly></textarea><br>
-      <button class="copy-btn" data-target="dubbat-output">نسخ النص</button>
+    <textarea id="afrad-output" readonly></textarea>
+
+    <div class="button-row">
+      <button class="btn" onclick="copyText('afrad-output', this)">📋 نسخ</button>
     </div>
   </div>
 
-  <!-- اجازات -->
-  <div id="tab-ijazat" class="tab-content">
-    <div class="sub-tabs">
-      <button class="sub-tab-btn active" data-sub="ij-int">إجازة داخلية</button>
-      <button class="sub-tab-btn" data-sub="ij-ext">إجازة خارجية</button>
-    </div>
+  <!-- استقالة جندي / جندي أول / عريف -->
+  <div id="ist-jundi" class="sub-section">
+    <label>رقم البرقية</label>
+    <input type="number" id="jundi-barqia" placeholder="0000">
 
-    <!-- إجازة داخلية -->
-    <div id="ij-int" class="sub-content">
-      <div class="form-row">
-        <label>برقية رقم :</label>
-        <input type="number" id="int-barqia" placeholder="مثال 1234">
-      </div>
-      <div class="form-row">
-        <label>رقم الفرد :</label>
-        <input type="number" id="int-person-num" placeholder="يظهر في ( 1 )">
-      </div>
-      <div class="form-row">
-        <label>الإجازة لمن ؟</label>
-        <select id="int-for">
-          <option value="أفــــراد">افراد</option>
-          <option value="ضباط">ضباط</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>الكوبي ايدي (منشن العسكري) :</label>
-        <input type="text" id="int-copyid" placeholder="@ID">
-      </div>
-      <div class="form-row">
-        <label>مدة الاجازة (بالساعات) :</label>
-        <input type="number" id="int-duration" placeholder="مثال 24">
-      </div>
-      <div class="form-row">
-        <label>عدد الساعات المتبقية (قبل الإجازة) :</label>
-        <input type="number" id="int-remaining-before" placeholder="رصيدك قبل الإجازة">
-      </div>
+    <label>منشن العسكري</label>
+    <input type="text" id="jundi-mention" placeholder="@منشن العسكري">
 
-      <div class="form-row">
-        <label>إدخال وقت بداية الإجازة يدوياً ؟</label>
-        <input type="checkbox" id="int-manual-time">
-        <span class="note">في حال التفعيل استخدم الحقل أسفل</span>
-      </div>
-      <div class="form-row" id="int-manual-time-row" style="display:none;">
-        <label>وقت بداية الإجازة (مكة) :</label>
-        <input type="datetime-local" id="int-start-dt">
-      </div>
+    <label>اسم الشخص</label>
+    <input type="text" id="jundi-name" placeholder="اسم الشخص">
 
-      <div class="form-row">
-        <label>توقيعك و اعتمادك :</label>
-        <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
-      </div>
+    <label>كود الشخص [R-000]</label>
+    <input type="text" id="jundi-code" placeholder="R-000">
 
-      <button class="generate-btn" id="int-generate">إنشاء القرار (داخلي)</button>
-      <textarea id="int-output" readonly></textarea><br>
-      <button class="copy-btn" data-target="int-output">نسخ النص</button>
-      <div class="note">التاريخ والوقت واسم اليوم محسوبين على توقيت مكة (Asia/Riyadh).</div>
-    </div>
+    <label>السبب (الرتبة)</label>
+    <select id="jundi-rank">
+      <option value="جندي">جندي</option>
+      <option value="جندي أول">جندي أول</option>
+      <option value="عريف">عريف</option>
+    </select>
 
-    <!-- إجازة خارجية -->
-    <div id="ij-ext" class="sub-content" style="display:none;">
-      <div class="form-row">
-        <label>برقية رقم :</label>
-        <input type="number" id="ext-barqia" placeholder="مثال 1234">
-      </div>
-      <div class="form-row">
-        <label>المدة (بالأيام) :</label>
-        <input type="number" id="ext-days" placeholder="مثال 3">
-      </div>
-      <button class="generate-btn" id="ext-generate">إنشاء القرار (خارجية)</button>
-      <textarea id="ext-output" readonly></textarea><br>
-      <button class="copy-btn" data-target="ext-output">نسخ النص</button>
-      <div class="note">تاريخ البداية وقت الضغط على زر إنشاء القرار حسب توقيت مكة، وتاريخ النهاية بعدد الأيام المدخلة.</div>
+    <textarea id="jundi-output" readonly></textarea>
+
+    <div class="button-row">
+      <button class="btn" onclick="copyText('jundi-output', this)">📋 نسخ</button>
     </div>
   </div>
 
-  <!-- الشرطة العسكرية -->
-  <div id="tab-police" class="tab-content">
-    <p style="text-align:center;">الشرطة العسكرية – يمكن إضافة النماذج الخاصة لاحقاً.</p>
+  <!-- استقالة الضباط -->
+  <div id="ist-dubbat" class="sub-section">
+    <label>رقم البرقية</label>
+    <input type="number" id="dubbat-barqia" placeholder="0000">
+
+    <label>الكوبي ايدي</label>
+    <input type="text" id="dubbat-copyid" placeholder="مثال 123456789012345678">
+
+    <label>إسم العسكري</label>
+    <input type="text" id="dubbat-name" placeholder="هنا اسمه">
+
+    <label>الكود العسكري</label>
+    <input type="text" id="dubbat-milcode" placeholder="كود الضابط هنا">
+
+    <label>الرتبة العسكرية</label>
+    <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
+
+    <textarea id="dubbat-output" readonly></textarea>
+
+    <div class="button-row">
+      <button class="btn" onclick="copyText('dubbat-output', this)">📋 نسخ</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============== TAB 2: اجازات =============== -->
+<div id="vacBox" class="container">
+  <h2>🧳 نماذج الإجازات 🧳</h2>
+
+  <div class="sub-menu">
+    <button class="active" onclick="showSub('ij-int', this, 'vacBox')">إجازة داخلية</button>
+    <button onclick="showSub('ij-ext', this, 'vacBox')">إجازة خارجية</button>
   </div>
 
-  <!-- مجلس القضاء -->
-  <div id="tab-court" class="tab-content">
-    <p style="text-align:center;">مجلس القضاء – يمكن إضافة النماذج الخاصة لاحقاً.</p>
+  <!-- إجازة داخلية -->
+  <div id="ij-int" class="sub-section active">
+    <label>برقية رقم</label>
+    <input type="number" id="int-barqia" placeholder="0000">
+
+    <label>رقم الفرد</label>
+    <input type="number" id="int-person-num" placeholder="1">
+
+    <label>الإجازة لمن ؟</label>
+    <select id="int-for">
+      <option value="أفــــراد">افراد</option>
+      <option value="ضباط">ضباط</option>
+    </select>
+
+    <label>الكوبي ايدي (منشن العسكري)</label>
+    <input type="text" id="int-copyid" placeholder="مثال 123456789012345678">
+
+    <label>مدة الإجازة (بالساعات)</label>
+    <input type="number" id="int-duration" placeholder="مثال 24">
+
+    <label>عدد الساعات المتبقية (قبل الإجازة)</label>
+    <input type="number" id="int-remaining" placeholder="رصيد الساعات الحالي">
+
+    <div class="manual-wrap">
+      <input type="checkbox" id="int-manual-time" />
+      <label for="int-manual-time" style="margin:0;font-weight:normal;">إدخال وقت بداية الإجازة يدويًا</label>
+    </div>
+
+    <div id="int-manual-time-row" style="display:none;">
+      <label>وقت بداية الإجازة (توقيت مكة)</label>
+      <input type="datetime-local" id="int-start-dt">
+    </div>
+
+    <label>توقيعك و اعتمادك</label>
+    <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
+
+    <div class="button-row">
+      <button class="btn" id="int-generate">إنشاء القرار</button>
+      <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
+    </div>
+
+    <textarea id="int-output" readonly></textarea>
+    <div class="note">التاريخ والوقت واسم اليوم يتم احتسابها على توقيت مكة (Asia/Riyadh).</div>
   </div>
 
-  <script>
-    // ===== Helpers for Mecca time =====
-    function addHours(date, hours){
-      return new Date(date.getTime() + hours*3600000);
+  <!-- إجازة خارجية -->
+  <div id="ij-ext" class="sub-section">
+    <label>برقية رقم</label>
+    <input type="number" id="ext-barqia" placeholder="0000">
+
+    <label>المدة (بالأيام)</label>
+    <input type="number" id="ext-days" placeholder="مثال 3">
+
+    <div class="button-row">
+      <button class="btn" id="ext-generate">إنشاء القرار</button>
+      <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
+    </div>
+
+    <textarea id="ext-output" readonly></textarea>
+    <div class="note">تاريخ البداية لحظة الضغط على إنشاء القرار بتوقيت مكة، وتاريخ النهاية = البداية + مدة الإجازة.</div>
+  </div>
+</div>
+
+<!-- =============== TAB 3: الشرطة العسكرية =============== -->
+<div id="mpBox" class="container">
+  <h2>🚔 الشرطة العسكرية 🚔</h2>
+  <p style="text-align:center;">يمكن إضافة نماذج الشرطة العسكرية هنا لاحقًا بنفس التنسيق.</p>
+</div>
+
+<!-- =============== TAB 4: مجلس القضاء =============== -->
+<div id="courtBox" class="container">
+  <h2>⚖️ مجلس القضاء ⚖️</h2>
+  <p style="text-align:center;">يمكن إضافة نماذج مجلس القضاء هنا لاحقًا بنفس التنسيق.</p>
+</div>
+
+<script>
+  /* ====== Helpers: Tabs ====== */
+  function showTab(id, btn){
+    document.querySelectorAll('.container').forEach(c=>c.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+
+    document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+  }
+
+  function showSub(subId, btn, containerId){
+    const box = document.getElementById(containerId);
+    box.querySelectorAll('.sub-section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(subId).classList.add('active');
+
+    box.querySelectorAll('.sub-menu button').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+  }
+
+  async function copyText(textareaId, button){
+    const el = document.getElementById(textareaId);
+    if(!el) return;
+    try{
+      await navigator.clipboard.writeText(el.value);
+      const old = button.textContent;
+      button.textContent = '✓ تم النسخ';
+      setTimeout(()=>button.textContent = old, 1500);
+    }catch(e){
+      // no alert – silent
     }
-    function addDays(date, days){
-      return new Date(date.getTime() + days*86400000);
-    }
-    function formatMecca(date){
-      const dayName = new Intl.DateTimeFormat('ar-SA',{
-        timeZone:'Asia/Riyadh',
-        weekday:'long'
-      }).format(date);
-      const dateStr = new Intl.DateTimeFormat('ar-SA',{
-        timeZone:'Asia/Riyadh',
-        year:'numeric',
-        month:'2-digit',
-        day:'2-digit'
-      }).format(date).replace(/\u200f/g,'');
-      const timeStr = new Intl.DateTimeFormat('ar-SA',{
-        timeZone:'Asia/Riyadh',
-        hour:'2-digit',
-        minute:'2-digit',
-        hour12:true
-      }).format(date).replace(/\u200f/g,'');
-      return {dayName,dateStr,timeStr};
-    }
+  }
 
-    // ===== Main tabs =====
-    document.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
+  /* ====== Helpers: Mecca time / dates ====== */
+  function addHours(date, hours){
+    return new Date(date.getTime() + hours*3600000);
+  }
+  function addDays(date, days){
+    return new Date(date.getTime() + days*86400000);
+  }
+  function formatMecca(date){
+    const dayName = new Intl.DateTimeFormat('ar-SA',{
+      timeZone:'Asia/Riyadh',
+      weekday:'long'
+    }).format(date);
 
-    // ===== Sub tabs (استقالة + اجازات) =====
-    function setupSubTabs(containerId){
-      const container = document.getElementById(containerId);
-      const buttons = container.querySelectorAll('.sub-tab-btn');
-      buttons.forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          buttons.forEach(b=>b.classList.remove('active'));
-          container.querySelectorAll('.sub-content').forEach(c=>c.style.display='none');
-          btn.classList.add('active');
-          container.querySelector('#'+btn.dataset.sub).style.display='block';
-        });
-      });
-    }
-    setupSubTabs('tab-istiqala');
-    setupSubTabs('tab-ijazat');
+    const dateStr = new Intl.DateTimeFormat('ar-SA',{
+      timeZone:'Asia/Riyadh',
+      year:'numeric',
+      month:'2-digit',
+      day:'2-digit'
+    }).format(date).replace(/\u200f/g,'');
 
-    // ===== Copy Buttons =====
-    document.querySelectorAll('.copy-btn').forEach(btn=>{
-      btn.addEventListener('click', async ()=>{
-        const targetId = btn.dataset.target;
-        const ta = document.getElementById(targetId);
-        if(!ta) return;
-        try{
-          await navigator.clipboard.writeText(ta.value);
-          const oldText = btn.textContent;
-          btn.textContent = '✓ تم النسخ';
-          setTimeout(()=>btn.textContent = oldText,1500);
-        }catch(e){
-          // لا تنبيه – فقط تجاهل
-        }
-      });
-    });
+    const timeStr = new Intl.DateTimeFormat('ar-SA',{
+      timeZone:'Asia/Riyadh',
+      hour:'2-digit',
+      minute:'2-digit',
+      hour12:true
+    }).format(date).replace(/\u200f/g,'');
 
-    // ===== استقالة الأفراد =====
-    function updateIstAFrad(){
-      const barqia = document.getElementById('afrad-barqia').value || '0000';
-      const copyId = document.getElementById('afrad-copyid').value || 'الكوبي ايدي';
-      const nameCode = document.getElementById('afrad-namecode').value || 'الاسم و الكود';
+    return {dayName,dateStr,timeStr};
+  }
 
-      const text =
+  /* ====== استقالة: الأفراد ====== */
+  function updateIstAFrad(){
+    const barqia = document.getElementById('afrad-barqia').value || '0000';
+    const copyId = document.getElementById('afrad-copyid').value || 'الكوبي ايدي';
+    const nameCode = document.getElementById('afrad-namecode').value || 'الاسم و الكود';
+
+    const txt =
 `**﷽**
 
 \`برقيه رقم :\` ** ${barqia} **
@@ -407,23 +436,23 @@
 
 || <@&1333955330283147285>  ||`;
 
-      document.getElementById('afrad-output').value = text;
-    }
-    ['afrad-barqia','afrad-copyid','afrad-namecode'].forEach(id=>{
-      document.getElementById(id).addEventListener('input',updateIstAFrad);
-    });
-    updateIstAFrad();
+    document.getElementById('afrad-output').value = txt;
+  }
+  ['afrad-barqia','afrad-copyid','afrad-namecode'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateIstAFrad);
+  });
+  updateIstAFrad();
 
-    // ===== استقالة جندي / جندي أول / عريف =====
-    function updateIstJundi(){
-      const barqia = document.getElementById('jundi-barqia').value || '0000';
-      const mention = document.getElementById('jundi-mention').value || '@منشن العسكري';
-      const name = document.getElementById('jundi-name').value || 'اسم الشخص';
-      const code = document.getElementById('jundi-code').value || 'R-000';
-      const rank = document.getElementById('jundi-rank').value || 'جندي';
-      const days = (rank === 'عريف') ? 7 : 14;
+  /* ====== استقالة: جندي / جندي أول / عريف ====== */
+  function updateIstJundi(){
+    const barqia = document.getElementById('jundi-barqia').value || '0000';
+    const mention = document.getElementById('jundi-mention').value || '@منشن العسكري';
+    const name = document.getElementById('jundi-name').value || 'اسم الشخص';
+    const code = document.getElementById('jundi-code').value || 'R-000';
+    const rank = document.getElementById('jundi-rank').value || 'جندي';
+    const days = (rank === 'عريف') ? 7 : 14;
 
-      const text =
+    const txt =
 `** ﷽ **
 
 \`برقيه رقم :\` **${barqia}**
@@ -447,21 +476,22 @@
 
 || <@&1333955330283147285>||`;
 
-      document.getElementById('jundi-output').value = text;
-    }
-    ['jundi-barqia','jundi-mention','jundi-name','jundi-code','jundi-rank']
-      .forEach(id=>document.getElementById(id).addEventListener('input',updateIstJundi));
-    updateIstJundi();
+    document.getElementById('jundi-output').value = txt;
+  }
+  ['jundi-barqia','jundi-mention','jundi-name','jundi-code','jundi-rank'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateIstJundi);
+  });
+  updateIstJundi();
 
-    // ===== استقالة الضباط =====
-    function updateIstDubbat(){
-      const barqia = document.getElementById('dubbat-barqia').value || '0000';
-      const copyId = document.getElementById('dubbat-copyid').value || 'الكوبي ايدي';
-      const name = document.getElementById('dubbat-name').value || 'هنا اسمه';
-      const milcode = document.getElementById('dubbat-milcode').value || 'كود الضابط هنا';
-      const rank = document.getElementById('dubbat-rank').value || 'الرتب هنا';
+  /* ====== استقالة: الضباط ====== */
+  function updateIstDubbat(){
+    const barqia = document.getElementById('dubbat-barqia').value || '0000';
+    const copyId = document.getElementById('dubbat-copyid').value || 'الكوبي ايدي';
+    const name = document.getElementById('dubbat-name').value || 'هنا اسمه';
+    const milcode = document.getElementById('dubbat-milcode').value || 'كود الضابط هنا';
+    const rank = document.getElementById('dubbat-rank').value || 'الرتب هنا';
 
-      const text =
+    const txt =
 `# نموذج إستقالة الضباط 
 
 ** ﷽
@@ -492,47 +522,48 @@
 
 
 ** ترسل نسخه إلى الـ <@&1333955330283147285>    للإعتماد والتنفيذ **`;
-      document.getElementById('dubbat-output').value = text;
-    }
-    ['dubbat-barqia','dubbat-copyid','dubbat-name','dubbat-milcode','dubbat-rank']
-      .forEach(id=>document.getElementById(id).addEventListener('input',updateIstDubbat));
-    updateIstDubbat();
+    document.getElementById('dubbat-output').value = txt;
+  }
+  ['dubbat-barqia','dubbat-copyid','dubbat-name','dubbat-milcode','dubbat-rank'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',updateIstDubbat);
+  });
+  updateIstDubbat();
 
-    // ===== إجازة داخلية =====
-    const intManualCheckbox = document.getElementById('int-manual-time');
-    const intManualRow = document.getElementById('int-manual-time-row');
-    intManualCheckbox.addEventListener('change',()=>{
-      intManualRow.style.display = intManualCheckbox.checked ? 'flex' : 'none';
-    });
+  /* ====== إجازة داخلية ====== */
+  const intManualCheckbox = document.getElementById('int-manual-time');
+  const intManualRow = document.getElementById('int-manual-time-row');
+  intManualCheckbox.addEventListener('change',()=>{
+    intManualRow.style.display = intManualCheckbox.checked ? 'block' : 'none';
+  });
 
-    function generateInternalLeave(){
-      const barqia = document.getElementById('int-barqia').value || '0000';
-      const personNum = document.getElementById('int-person-num').value || '1';
-      const target = document.getElementById('int-for').value || 'أفــــراد';
-      const copyId = document.getElementById('int-copyid').value || 'الكوبي ايدي';
-      const durationHours = parseFloat(document.getElementById('int-duration').value || '0');
-      const remainingBefore = parseFloat(document.getElementById('int-remaining-before').value || '0');
-      const signer = document.getElementById('int-signer').value || 'الكوبي ايدي';
+  function generateInternalLeave(){
+    const barqia = document.getElementById('int-barqia').value || '0000';
+    const personNum = document.getElementById('int-person-num').value || '1';
+    const target = document.getElementById('int-for').value || 'أفــــراد';
+    const copyId = document.getElementById('int-copyid').value || 'الكوبي ايدي';
+    const durationHours = parseFloat(document.getElementById('int-duration').value || '0');
+    const remainingBefore = parseFloat(document.getElementById('int-remaining').value || '0');
+    const signer = document.getElementById('int-signer').value || 'الكوبي ايدي';
 
-      const remainingAfter = Math.max(remainingBefore - durationHours,0);
+    const remainingAfter = Math.max(remainingBefore - durationHours, 0);
 
-      let startDate;
-      if(intManualCheckbox.checked){
-        const val = document.getElementById('int-start-dt').value;
-        if(val){
-          startDate = new Date(val);
-        }else{
-          startDate = new Date();
-        }
-      }else{
-        startDate = new Date(); // الآن
+    let startDate;
+    if(intManualCheckbox.checked){
+      const val = document.getElementById('int-start-dt').value;
+      if(val){
+        startDate = new Date(val);
+      } else {
+        startDate = new Date();
       }
-      const endDate = addHours(startDate,durationHours);
+    } else {
+      startDate = new Date();
+    }
+    const endDate = addHours(startDate, durationHours);
 
-      const fmtStart = formatMecca(startDate);
-      const fmtEnd = formatMecca(endDate);
+    const fmtStart = formatMecca(startDate);
+    const fmtEnd = formatMecca(endDate);
 
-      const text =
+    const txt =
 `**﷽**
 
 \`برقيه رقم :\` **${barqia}**
@@ -561,24 +592,23 @@
 ||<@&1333955330283147285> ||
 ||<@&1333955142164156477>||`;
 
-      document.getElementById('int-output').value = text;
-    }
-    document.getElementById('int-generate').addEventListener('click',generateInternalLeave);
-    // مبدئياً توليد أولي
-    generateInternalLeave();
+    document.getElementById('int-output').value = txt;
+  }
+  document.getElementById('int-generate').addEventListener('click',generateInternalLeave);
+  generateInternalLeave();
 
-    // ===== إجازة خارجية =====
-    function generateExternalLeave(){
-      const barqia = document.getElementById('ext-barqia').value || '0000';
-      const days = parseInt(document.getElementById('ext-days').value || '0',10);
-      const now = new Date();
-      const start = now;
-      const end = addDays(start,Math.max(days,0));
+  /* ====== إجازة خارجية ====== */
+  function generateExternalLeave(){
+    const barqia = document.getElementById('ext-barqia').value || '0000';
+    const days = parseInt(document.getElementById('ext-days').value || '0', 10);
 
-      const fmtStart = formatMecca(start);
-      const fmtEnd = formatMecca(end);
+    const start = new Date();
+    const end = addDays(start, Math.max(days,0));
 
-      const text =
+    const fmtStart = formatMecca(start);
+    const fmtEnd = formatMecca(end);
+
+    const txt =
 `** ﷽**
 
 
@@ -598,11 +628,11 @@
 \`أعتماد :\`  <@1211838071524565023> 
 
 || <@&1333955330283147285>  ||`;
-      document.getElementById('ext-output').value = text;
-    }
-    document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
-    generateExternalLeave();
-  </script>
+
+    document.getElementById('ext-output').value = txt;
+  }
+  document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
+  generateExternalLeave();
+</script>
 </body>
 </html>
-
