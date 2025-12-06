@@ -202,6 +202,38 @@
     width:auto;
   }
 
+  /* time row for hour/minute/period */
+  .time-row{
+    display:flex;
+    gap:8px;
+  }
+  .time-row input,
+  .time-row select{
+    flex:1;
+  }
+
+  /* === Collapsible result box === */
+  .result-box{
+    margin-top:12px;
+  }
+  .result-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 12px;
+    background:rgba(0,0,0,0.6);
+    border-radius:8px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .result-header span{
+    font-weight:bold;
+  }
+  .result-content{
+    display:none;
+    margin-top:8px;
+  }
+
   @media (max-width:720px){
     .menu button{
       padding:14px 18px;
@@ -243,10 +275,17 @@
     <label>اسم و كود الفرد</label>
     <input type="text" id="afrad-namecode" placeholder="مثال حمد بن عسكر [CD | G-020]">
 
-    <textarea id="afrad-output" readonly></textarea>
-
-    <div class="button-row">
-      <button class="btn" onclick="copyText('afrad-output', this)">📋 نسخ</button>
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('afrad-result')">
+        <span>📄 النتيجة</span>
+        <span data-arrow-for="afrad-result">▼</span>
+      </div>
+      <div id="afrad-result" class="result-content">
+        <textarea id="afrad-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('afrad-output', this)">📋 نسخ</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -271,10 +310,17 @@
       <option value="عريف">عريف</option>
     </select>
 
-    <textarea id="jundi-output" readonly></textarea>
-
-    <div class="button-row">
-      <button class="btn" onclick="copyText('jundi-output', this)">📋 نسخ</button>
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('jundi-result')">
+        <span>📄 النتيجة</span>
+        <span data-arrow-for="jundi-result">▼</span>
+      </div>
+      <div id="jundi-result" class="result-content">
+        <textarea id="jundi-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('jundi-output', this)">📋 نسخ</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -295,10 +341,17 @@
     <label>الرتبة العسكرية</label>
     <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
 
-    <textarea id="dubbat-output" readonly></textarea>
-
-    <div class="button-row">
-      <button class="btn" onclick="copyText('dubbat-output', this)">📋 نسخ</button>
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('dubbat-result')">
+        <span>📄 النتيجة</span>
+        <span data-arrow-for="dubbat-result">▼</span>
+      </div>
+      <div id="dubbat-result" class="result-content">
+        <textarea id="dubbat-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('dubbat-output', this)">📋 نسخ</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -342,8 +395,14 @@
 
     <div id="int-manual-time-row" style="display:none;">
       <label>وقت بداية الإجازة (توقيت مكة)</label>
-      <!-- TIME ONLY, date comes automatically from today -->
-      <input type="time" id="int-start-time" step="60">
+      <div class="time-row">
+        <input type="number" id="int-start-hour" min="1" max="12" placeholder="الساعة (1-12)">
+        <input type="number" id="int-start-minute" min="0" max="59" placeholder="الدقيقة (0-59)">
+        <select id="int-start-period">
+          <option value="ص">صباحاً</option>
+          <option value="م">مساءً</option>
+        </select>
+      </div>
     </div>
 
     <label>توقيعك و اعتمادك</label>
@@ -351,11 +410,22 @@
 
     <div class="button-row">
       <button class="btn" id="int-generate">إنشاء القرار</button>
-      <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
     </div>
 
-    <textarea id="int-output" readonly></textarea>
-  
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('int-result')">
+        <span>📄 النتيجة</span>
+        <span data-arrow-for="int-result">▼</span>
+      </div>
+      <div id="int-result" class="result-content">
+        <textarea id="int-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">التاريخ والوقت واسم اليوم يتم احتسابها على توقيت مكة (Asia/Riyadh) بالأرقام الإنجليزية.</div>
   </div>
 
   <!-- إجازة خارجية -->
@@ -368,10 +438,22 @@
 
     <div class="button-row">
       <button class="btn" id="ext-generate">إنشاء القرار</button>
-      <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
     </div>
 
-    <textarea id="ext-output" readonly></textarea>
+    <div class="result-box">
+      <div class="result-header" onclick="toggleResult('ext-result')">
+        <span>📄 النتيجة</span>
+        <span data-arrow-for="ext-result">▼</span>
+      </div>
+      <div id="ext-result" class="result-content">
+        <textarea id="ext-output" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">تاريخ البداية لحظة الضغط على إنشاء القرار بتوقيت مكة، وتاريخ النهاية = البداية + مدة الإجازة (أرقام إنجليزية).</div>
   </div>
 </div>
 
@@ -406,6 +488,16 @@
     if(btn) btn.classList.add('active');
   }
 
+  /* ====== Collapsible result ====== */
+  function toggleResult(id){
+    const content = document.getElementById(id);
+    if(!content) return;
+    const isOpen = content.style.display === 'block';
+    content.style.display = isOpen ? 'none' : 'block';
+    const arrow = document.querySelector('[data-arrow-for="'+id+'"]');
+    if(arrow) arrow.textContent = isOpen ? '▼' : '▲';
+  }
+
   async function copyText(textareaId, button){
     const el = document.getElementById(textareaId);
     if(!el) return;
@@ -426,6 +518,7 @@
   function addDays(date, days){
     return new Date(date.getTime() + days*86400000);
   }
+
   function formatMecca(date){
     const dayName = new Intl.DateTimeFormat('ar-SA',{
       timeZone:'Asia/Riyadh',
@@ -453,6 +546,18 @@
     const period = ampm.includes('am') ? 'ص' : 'م';
 
     return {dayName,dateStr,timeStr: timePart, period};
+  }
+
+  /* Helper: today's date in Mecca (Y,M,D) */
+  function getTodayMeccaYMD(){
+    const fmt = new Intl.DateTimeFormat('en-CA',{
+      timeZone:'Asia/Riyadh',
+      year:'numeric',
+      month:'2-digit',
+      day:'2-digit'
+    });
+    const [y,m,d] = fmt.format(new Date()).split('-').map(Number);
+    return {y,m,d};
   }
 
   /* ====== استقالة: الأفراد ====== */
@@ -597,20 +702,26 @@
     const remainingAfter = Math.max(remainingBefore - durationHours, 0);
 
     let startDate;
+
     if(intManualCheckbox.checked){
-      // Use today's date + manual time
-      const tVal = document.getElementById('int-start-time').value; // "HH:MM"
-      const now = new Date();
-      if(tVal){
-        const [hStr,mStr] = tVal.split(':');
-        const h = parseInt(hStr || '0',10);
-        const m = parseInt(mStr || '0',10);
-        startDate = new Date(now.getTime());
-        startDate.setHours(h, m, 0, 0);
-      }else{
-        startDate = now;
-      }
+      const hStr = document.getElementById('int-start-hour').value;
+      const mStr = document.getElementById('int-start-minute').value;
+      const period = document.getElementById('int-start-period').value || 'ص';
+
+      const {y,m,d} = getTodayMeccaYMD();
+
+      let h12 = parseInt(hStr || '0',10);
+      let mm = parseInt(mStr || '0',10);
+      if(h12 < 1 || h12 > 12) h12 = 12;
+      if(mm < 0 || mm > 59) mm = 0;
+
+      let h24 = h12 % 12;
+      if(period === 'م') h24 += 12; // convert to 24h
+
+      // Mecca is UTC+3 → UTC = MeccaHour - 3
+      startDate = new Date(Date.UTC(y, m-1, d, h24 - 3, mm, 0, 0));
     } else {
+      // now (real current UTC) then formatted as Mecca
       startDate = new Date();
     }
 
@@ -649,6 +760,14 @@
 ||<@&1333955142164156477>||`;
 
     document.getElementById('int-output').value = txt;
+
+    // auto-open result box
+    const res = document.getElementById('int-result');
+    if(res){
+      res.style.display = 'block';
+      const arrow = document.querySelector('[data-arrow-for="int-result"]');
+      if(arrow) arrow.textContent = '▲';
+    }
   }
   document.getElementById('int-generate').addEventListener('click',generateInternalLeave);
   generateInternalLeave();
@@ -686,11 +805,16 @@
 || <@&1333955330283147285>  ||`;
 
     document.getElementById('ext-output').value = txt;
+
+    const res = document.getElementById('ext-result');
+    if(res){
+      res.style.display = 'block';
+      const arrow = document.querySelector('[data-arrow-for="ext-result"]');
+      if(arrow) arrow.textContent = '▲';
+    }
   }
   document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
   generateExternalLeave();
 </script>
 </body>
 </html>
-
-
