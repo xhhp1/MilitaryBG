@@ -275,6 +275,24 @@
     <label>اسم و كود الفرد</label>
     <input type="text" id="afrad-namecode" placeholder="مثال حمد بن عسكر [CD | G-020]">
 
+    <!-- الحقول الجديدة: اسم / كود / رتبة -->
+    <label>إسم العسكري</label>
+    <input type="text" id="afrad-name" placeholder="هنا اسمه">
+
+    <label>الكود العسكري</label>
+    <input type="text" id="afrad-code" placeholder="R-000">
+
+    <label>الرتبة العسكرية</label>
+    <select id="afrad-rank">
+      <option value="وكيل رقيب">وكيل رقيب</option>
+      <option value="رقيب">رقيب</option>
+      <option value="رقيب اول">رقيب اول</option>
+      <option value="رئيس رقباء">رئيس رقباء</option>
+      <option value="ملازم">ملازم</option>
+      <option value="ملازم اول">ملازم اول</option>
+      <option value="نقيب">نقيب</option>
+    </select>
+
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('afrad-result')">
         <span>📄</span>
@@ -339,7 +357,12 @@
     <input type="text" id="dubbat-milcode" placeholder="كود الضابط هنا">
 
     <label>الرتبة العسكرية</label>
-    <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
+    <select id="dubbat-rank">
+      <option value="رائد">رائد</option>
+      <option value="مقدم">مقدم</option>
+      <option value="عقيد">عقيد</option>
+      <option value="عميد">عميد</option>
+    </select>
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('dubbat-result')">
@@ -683,36 +706,53 @@
   function updateIstAFrad(){
     const barqia = document.getElementById('afrad-barqia').value || '0000';
     const copyId = document.getElementById('afrad-copyid').value || 'الكوبي ايدي';
-    const nameCode = document.getElementById('afrad-namecode').value || 'الاسم و الكود';
+
+    const name = document.getElementById('afrad-name').value || 'هنا اسمه';
+    const code = document.getElementById('afrad-code').value || 'R-000';
+    const rank = document.getElementById('afrad-rank').value || 'وكيل رقيب';
 
     const txt =
-`**﷽**
+`# نموذج إستقالة الضباط 
 
-\`برقيه رقم :\` ** ${barqia} **
+** ﷽
 
-\`الموضوع : \` ** استقالة **
+\`برقيه رقم :\` ${barqia}
 
-**بعد ماتم مناقشته مع المسؤولين وبعد مراجعة طلب الإستقالة تم قبول استقالة المدعو :**
+\`الموضوع : \`  إستقالة 
 
-<@${copyId}>     \`${nameCode}\`
+بعد ماتم مناقشته مع المسؤولين وبعد مراجعة طلب الإستقالة تم قبول استقالة المدعو :
+
+<@${copyId}> 
+
+ \` إسم العسكري : ${name} \`
+
+\` الكود العسكري : [${code}] \`
+
+\` الرتبة العسكرية : ${rank} \`
+
+ شاكرين مجهوداتك الملحوظه وسائلين المولى عز وجل التوفيق في وجهتك القادمة 
+
+\` توقيـع :\`
+
+ <@&1333955330283147285>   
+
+\` إعتماد : \`
+
+ مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
 
 
-** شاكرين مجهوداتك الملحوظه وسائلين المولى عز وجل التوفيق في وجهتك القادمة **
-
-
-\`توقيـع  :\` <@&1333955330283147285> 
-
-\`اعـتـماد  : \`  
-
-**مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
-
-
-|| <@&1333955330283147285>  ||`;
+** ترسل نسخه إلى الـ <@&1333955330283147285>    للإعتماد والتنفيذ **`;
 
     document.getElementById('afrad-output').value = txt;
   }
-  ['afrad-barqia','afrad-copyid','afrad-namecode'].forEach(id=>{
-    document.getElementById(id).addEventListener('input',updateIstAFrad);
+  ['afrad-barqia','afrad-copyid','afrad-namecode','afrad-name','afrad-code','afrad-rank'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){
+      el.addEventListener('input',updateIstAFrad);
+      if(el.tagName === 'SELECT'){
+        el.addEventListener('change',updateIstAFrad);
+      }
+    }
   });
   updateIstAFrad();
 
@@ -762,7 +802,7 @@
     const copyId = document.getElementById('dubbat-copyid').value || 'الكوبي ايدي';
     const name = document.getElementById('dubbat-name').value || 'هنا اسمه';
     const milcode = document.getElementById('dubbat-milcode').value || 'كود الضابط هنا';
-    const rank = document.getElementById('dubbat-rank').value || 'الرتب هنا';
+    const rank = document.getElementById('dubbat-rank').value || 'رائد';
 
     const txt =
 `# نموذج إستقالة الضباط 
