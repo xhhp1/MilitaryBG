@@ -197,6 +197,7 @@
     align-items:center;
     gap:8px;
     margin-top:8px;
+    margin-bottom: 4px;
   }
   .manual-wrap input[type="checkbox"]{
     width:auto;
@@ -303,11 +304,15 @@
     <label>كود الشخص [R-000]</label>
     <input type="text" id="jundi-code" placeholder="R-000">
 
-    <label>السبب (الرتبة)</label>
+    <label>الرتبة العسكرية</label>
     <select id="jundi-rank">
-      <option value="جندي">جندي</option>
-      <option value="جندي أول">جندي أول</option>
-      <option value="عريف">عريف</option>
+      <option value="وكيل رقيب">وكيل رقيب</option>
+      <option value="رقيب">رقيب</option>
+      <option value="رقيب اول">رقيب اول</option>
+      <option value="رئيس رقباء">رئيس رقباء</option>
+      <option value="ملازم">ملازم</option>
+      <option value="ملازم اول">ملازم اول</option>
+      <option value="نقيب">نقيب</option>
     </select>
 
     <div class="result-box">
@@ -339,7 +344,12 @@
     <input type="text" id="dubbat-milcode" placeholder="كود الضابط هنا">
 
     <label>الرتبة العسكرية</label>
-    <input type="text" id="dubbat-rank" placeholder="الرتب هنا">
+    <select id="dubbat-rank">
+      <option value="رائد">رائد</option>
+      <option value="مقدم">مقدم</option>
+      <option value="عقيد">عقيد</option>
+      <option value="عميد">عميد</option>
+    </select>
 
     <div class="result-box">
       <div class="result-header" onclick="toggleResult('dubbat-result')">
@@ -716,38 +726,45 @@
   });
   updateIstAFrad();
 
-  /* ====== استقالة: جندي / جندي أول / عريف ====== */
+  /* ====== استقالة: جندي / جندي أول / عريف (النموذج الجديد) ====== */
   function updateIstJundi(){
     const barqia = document.getElementById('jundi-barqia').value || '0000';
     const mention = document.getElementById('jundi-mention').value || '@منشن العسكري';
     const name = document.getElementById('jundi-name').value || 'اسم الشخص';
     const code = document.getElementById('jundi-code').value || 'R-000';
-    const rank = document.getElementById('jundi-rank').value || 'جندي';
-    const days = (rank === 'عريف') ? 7 : 14;
+    const rank = document.getElementById('jundi-rank').value || 'وكيل رقيب';
 
     const txt =
-`** ﷽ **
+`# نموذج إستقالة الضباط 
 
-\`برقيه رقم :\` **${barqia}**
+** ﷽
 
-\`الموضوع :\`** فصل **
+\`برقيه رقم :\` ${barqia}
 
-\`قرار صادر من الشؤون الإدارية بحرس الحدود \`
+\`الموضوع : \`  إستقالة 
 
-\`بفصل العسكري:\`  ** <@${mention}> **  **\`[${code}] ${name} \`**
+بعد ماتم مناقشته مع المسؤولين وبعد مراجعة طلب الإستقالة تم قبول استقالة المدعو :
 
-\`غرامة مليون يتم تسليمها للشؤون الإدارية و منع من التوظيف لمدة ${days} ايام\` 
+ <@${mention}> 
 
-\`السبب :\` ** استقاله برتبه { ${rank} }  **
+ \` إسم العسكري : ${name} \`
+
+\` الكود العسكري : [${code}] \`
+
+\` الرتبة العسكرية : ${rank} \`
+
+ شاكرين مجهوداتك الملحوظه وسائلين المولى عز وجل التوفيق في وجهتك القادمة 
+
+\` توقيـع :\`
+
+ <@&1333955330283147285>   
+
+\` إعتماد : \`
+
+ مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
 
 
-\`توقيـع  :\` <@&1333955330283147285> 
-
-\`اعـتـماد  :\` 
-
-**مسؤول مكتب الشؤون الإداريه : <@1211838071524565023>  **
-
-|| <@&1333955330283147285>||`;
+** ترسل نسخه إلى الـ <@&1333955330283147285>    للإعتماد والتنفيذ **`;
 
     document.getElementById('jundi-output').value = txt;
   }
@@ -762,7 +779,7 @@
     const copyId = document.getElementById('dubbat-copyid').value || 'الكوبي ايدي';
     const name = document.getElementById('dubbat-name').value || 'هنا اسمه';
     const milcode = document.getElementById('dubbat-milcode').value || 'كود الضابط هنا';
-    const rank = document.getElementById('dubbat-rank').value || 'الرتب هنا';
+    const rank = document.getElementById('dubbat-rank').value || 'رائد';
 
     const txt =
 `# نموذج إستقالة الضباط 
@@ -1065,8 +1082,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
