@@ -473,6 +473,8 @@
 
   </div>
 
+</div> <!-- 👈 هذا الـ div كان ناقص: إغلاق vacBox -->
+
 <!-- =============== TAB 3: الانتدابات =============== -->
 <div id="entBox" class="container">
   <h2>📌 نماذج الانتدابات 📌</h2>
@@ -967,7 +969,7 @@
     const copyId = document.getElementById('ext-copyid').value || 'الكوبي ايدي';
     const days = parseInt(document.getElementById('ext-days').value || '0', 10);
 
-    const start = new Date(); // تقدر بعدها نخليها من تاريخ اختيار، لو حبيت
+    const start = new Date();
     const end = addDays(start, Math.max(days,0));
 
     const fmtStart = formatMecca(start);
@@ -1199,5 +1201,3 @@
 </script>
 </body>
 </html>
-
-
