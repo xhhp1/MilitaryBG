@@ -450,8 +450,11 @@
     <label>برقية رقم</label>
     <input type="number" id="ext-barqia" placeholder="0000">
 
+    <label>كوبي ايدي العسكري</label>
+    <input type="text" id="ext-copyid" placeholder="مثال 123456789012345678">
+
     <label>المدة (بالأيام)</label>
-    <input type="number" id="ext-days" placeholder="مثال 3">
+    <input type="number" id="ext-days" placeholder="مثال 30">
 
     <div class="button-row">
       <button class="btn" id="ext-generate">إنشاء القرار</button>
@@ -469,7 +472,6 @@
     </div>
 
   </div>
-</div>
 
 <!-- =============== TAB 3: الانتدابات =============== -->
 <div id="entBox" class="container">
@@ -962,9 +964,10 @@
   /* ====== إجازة خارجية ====== */
   function generateExternalLeave(){
     const barqia = document.getElementById('ext-barqia').value || '0000';
+    const copyId = document.getElementById('ext-copyid').value || 'الكوبي ايدي';
     const days = parseInt(document.getElementById('ext-days').value || '0', 10);
 
-    const start = new Date();
+    const start = new Date(); // تقدر بعدها نخليها من تاريخ اختيار، لو حبيت
     const end = addDays(start, Math.max(days,0));
 
     const fmtStart = formatMecca(start);
@@ -978,8 +981,9 @@
 
 \`الموضوع  :\` ** اجازة خارجية**
 
+\`العسكري : \` <@${copyId}>
 
-\`المدة :\` ( **${days} ايام  ** ) \`من تاريخ\` **${fmtStart.dateStr}الى ${fmtEnd.dateStr}**
+\`المدة :\` ( **${days} ايام  ** ) \`من تاريخ\` **${fmtStart.dateStr} الى ${fmtEnd.dateStr}**
 
 
 \`وذلك يمنع عليك التواجد في المقاطعة الا بعد كسر الاجازة خلاف ذلك تعرض نفسك للفصل\`
@@ -1195,4 +1199,5 @@
 </script>
 </body>
 </html>
+
 
