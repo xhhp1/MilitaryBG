@@ -34,7 +34,7 @@
        1px  1px 0 #000;
   }
 
-  /* === Main menu (4 tabs) === */
+  /* === Main menu (5 tabs) === */
   .menu{
     display:flex;
     gap:18px;
@@ -250,6 +250,7 @@
 <div class="menu">
   <button class="active" onclick="showTab('istBox', this)">استقالة</button>
   <button onclick="showTab('vacBox', this)">اجازات</button>
+  <button onclick="showTab('entBox', this)">الانتدابات</button>
   <button onclick="showTab('mpBox', this)">الشرطة العسكرية</button>
   <button onclick="showTab('courtBox', this)">مجلس القضاء</button>
 </div>
@@ -275,7 +276,6 @@
     <label>اسم و كود الفرد</label>
     <input type="text" id="afrad-namecode" placeholder="مثال حمد بن عسكر [CD | G-020]">
 
-    <!-- الحقول الجديدة: اسم / كود / رتبة -->
     <label>إسم العسكري</label>
     <input type="text" id="afrad-name" placeholder="هنا اسمه">
 
@@ -431,7 +431,6 @@
     <label>توقيعك و اعتمادك</label>
     <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
 
-    <!-- SAME ROW: إنشاء القرار + نسخ -->
     <div class="button-row">
       <button class="btn" id="int-generate">إنشاء القرار</button>
       <button class="btn" onclick="copyText('int-output', this)">📋 نسخ</button>
@@ -457,7 +456,6 @@
     <label>المدة (بالأيام)</label>
     <input type="number" id="ext-days" placeholder="مثال 3">
 
-    <!-- SAME ROW: إنشاء القرار + نسخ -->
     <div class="button-row">
       <button class="btn" id="ext-generate">إنشاء القرار</button>
       <button class="btn" onclick="copyText('ext-output', this)">📋 نسخ</button>
@@ -476,7 +474,49 @@
   </div>
 </div>
 
-<!-- =============== TAB 3: الشرطة العسكرية =============== -->
+<!-- =============== TAB 3: الانتدابات =============== -->
+<div id="entBox" class="container">
+  <h2>📌 نماذج الانتدابات 📌</h2>
+
+  <label>برقية رقم</label>
+  <input type="number" id="ent-barqia" placeholder="0000">
+
+  <label>الكوبي ايدي (العسكري)</label>
+  <input type="text" id="ent-copyid" placeholder="مثال 123456789012345678">
+
+  <label>المدة (عدد الأيام من 2 إلى 5)</label>
+  <input type="number" id="ent-days" min="2" max="5" placeholder="من 2 إلى 5">
+
+  <label>تاريخ بداية الانتداب</label>
+  <input type="date" id="ent-start">
+
+  <label>القطاع المنتدب اليه</label>
+  <select id="ent-sector">
+    <option value="<@&1071933352497664010>">الميكانيك</option>
+    <option value="<@&1071933310764335174>">الامن العام</option>
+    <option value="<@&1253053715191955486>">قوات الطوارئ الخاصة</option>
+    <option value="<@&1071933340518727842>">قوات امن المنشائات</option>
+    <option value="<@&1071933365839724575>">الهلال الاحمر</option>
+    <option value="<@&1311829743326203997>">قوات امن الطرق</option>
+  </select>
+
+  <div class="button-row">
+    <button class="btn" id="ent-generate">إنشاء القرار</button>
+    <button class="btn" onclick="copyText('ent-output', this)">📋 نسخ</button>
+  </div>
+
+  <div class="result-box">
+    <div class="result-header" onclick="toggleResult('ent-result')">
+      <span>📄</span>
+      <span data-arrow-for="ent-result">▼</span>
+    </div>
+    <div id="ent-result" class="result-content">
+      <textarea id="ent-output" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- =============== TAB 4: الشرطة العسكرية =============== -->
 <div id="mpBox" class="container">
   <h2>🚔 الشرطة العسكرية 🚔</h2>
 
@@ -485,7 +525,6 @@
     <button onclick="showSub('mp-hkm', this, 'mpBox')">حكم عسكري</button>
   </div>
 
-  <!-- استدعاء الشرطة العسكرية -->
   <div id="mp-est" class="sub-section active">
     <label>برقية رقم</label>
     <input type="number" id="mp-est-barqia" placeholder="0000">
@@ -514,7 +553,6 @@
     </div>
   </div>
 
-  <!-- حكم عسكري (شرطة عسكرية) -->
   <div id="mp-hkm" class="sub-section">
     <label>برقية رقم</label>
     <input type="number" id="mp-hkm-barqia" placeholder="0000">
@@ -544,7 +582,7 @@
   </div>
 </div>
 
-<!-- =============== TAB 4: مجلس القضاء =============== -->
+<!-- =============== TAB 5: مجلس القضاء =============== -->
 <div id="courtBox" class="container">
   <h2>⚖️ مجلس القضاء ⚖️</h2>
 
@@ -553,7 +591,6 @@
     <button onclick="showSub('court-hkm', this, 'courtBox')">حكم  قضاء عسكري</button>
   </div>
 
-  <!-- استدعاء القضاء العسكري -->
   <div id="court-est" class="sub-section active">
     <label>برقية رقم</label>
     <input type="number" id="court-est-barqia" placeholder="0000">
@@ -582,7 +619,6 @@
     </div>
   </div>
 
-  <!-- حكم قضاء عسكري -->
   <div id="court-hkm" class="sub-section">
     <label>برقية رقم</label>
     <input type="number" id="court-hkm-barqia" placeholder="0000">
@@ -680,7 +716,7 @@
       hour:'2-digit',
       minute:'2-digit',
       hour12:true
-    }).format(date); // "05:35 pm"
+    }).format(date);
 
     const parts = fullTime.split(' ');
     const timePart = parts[0];
@@ -690,7 +726,6 @@
     return {dayName,dateStr,timeStr: timePart, period};
   }
 
-  /* Helper: today's date in Mecca (Y,M,D) */
   function getTodayMeccaYMD(){
     const fmt = new Intl.DateTimeFormat('en-CA',{
       timeZone:'Asia/Riyadh',
@@ -706,7 +741,6 @@
   function updateIstAFrad(){
     const barqia = document.getElementById('afrad-barqia').value || '0000';
     const copyId = document.getElementById('afrad-copyid').value || 'الكوبي ايدي';
-
     const name = document.getElementById('afrad-name').value || 'هنا اسمه';
     const code = document.getElementById('afrad-code').value || 'R-000';
     const rank = document.getElementById('afrad-rank').value || 'وكيل رقيب';
@@ -877,7 +911,6 @@
       let h24 = h12 % 12;
       if(period === 'م') h24 += 12;
 
-      // Mecca is UTC+3, Date.UTC is in UTC
       startDate = new Date(Date.UTC(y, m-1, d, h24-3, mm, 0, 0));
     } else {
       startDate = new Date();
@@ -973,6 +1006,64 @@
   document.getElementById('ext-generate').addEventListener('click',generateExternalLeave);
   generateExternalLeave();
 
+  /* ====== الانتدابات ====== */
+  function generateEnt(){
+    const barqia = document.getElementById('ent-barqia').value || '0000';
+    const copyId = document.getElementById('ent-copyid').value || 'الكوبي ايدي';
+    let days = parseInt(document.getElementById('ent-days').value || '0',10);
+    if(isNaN(days)) days = 0;
+    if(days < 2) days = 2;
+    if(days > 5) days = 5;
+
+    const startInput = document.getElementById('ent-start').value;
+    let startDate;
+    if(startInput){
+      startDate = new Date(startInput + 'T00:00:00Z');
+    } else {
+      startDate = new Date();
+    }
+    const endDate = addDays(startDate, days);
+
+    const fmtStart = formatMecca(startDate);
+    const fmtEnd = formatMecca(endDate);
+
+    const sectorVal = document.getElementById('ent-sector').value || '@منشن القطاع';
+
+    const txt =
+`** ﷽**
+
+
+\`برقيه رقم :\` ** ${barqia} **
+
+\`الموضوع :\` ** انتداب **
+
+\`العسكري :\`  ** <@${copyId}> **
+
+\`المدة :\` **( ${days} يوم  ) من\` تاريخ \` ${fmtStart.dateStr} الى\` تاريخ \` ${fmtEnd.dateStr}**
+
+\`القطاع المنتدب اليه :\` **${sectorVal}**
+
+
+\`توقيع :\` <@&1333955330283147285>   
+\`اعتماد :\` <@1211838071524565023> 
+
+|| <@&1333955330283147285>  ||`;
+
+    document.getElementById('ent-output').value = txt;
+
+    const res = document.getElementById('ent-result');
+    if(res){
+      res.style.display = 'block';
+      const arrow = document.querySelector('[data-arrow-for="ent-result"]');
+      if(arrow) arrow.textContent = '▲';
+    }
+  }
+  const entGenBtn = document.getElementById('ent-generate');
+  if(entGenBtn){
+    entGenBtn.addEventListener('click', generateEnt);
+    generateEnt();
+  }
+
   /* ====== الشرطة العسكرية: الاستدعاء ====== */
   function updateMpEst(){
     const barqia = document.getElementById('mp-est-barqia').value || '0000';
@@ -1000,9 +1091,10 @@
     document.getElementById('mp-est-output').value = txt;
   }
   ['mp-est-barqia','mp-est-copyid','mp-est-mohla'].forEach(id=>{
-    document.getElementById(id).addEventListener('input',updateMpEst);
-    if(document.getElementById(id).tagName === 'SELECT'){
-      document.getElementById(id).addEventListener('change',updateMpEst);
+    const el = document.getElementById(id);
+    el.addEventListener('input',updateMpEst);
+    if(el.tagName === 'SELECT'){
+      el.addEventListener('change',updateMpEst);
     }
   });
   updateMpEst();
@@ -1064,9 +1156,10 @@
     document.getElementById('court-est-output').value = txt;
   }
   ['court-est-barqia','court-est-copyid','court-est-mohla'].forEach(id=>{
-    document.getElementById(id).addEventListener('input',updateCourtEst);
-    if(document.getElementById(id).tagName === 'SELECT'){
-      document.getElementById(id).addEventListener('change',updateCourtEst);
+    const el = document.getElementById(id);
+    el.addEventListener('input',updateCourtEst);
+    if(el.tagName === 'SELECT'){
+      el.addEventListener('change',updateCourtEst);
     }
   });
   updateCourtEst();
