@@ -245,7 +245,7 @@
 </head>
 <body>
 
-<h1>📋 الشؤون الإدارية 📋</h1>
+<h1> الشؤون الإدارية 📋</h1>
 
 <div class="menu">
   <button class="active" onclick="showTab('istBox', this)">استقالة</button>
@@ -257,7 +257,7 @@
 
 <!-- =============== TAB 1: استقالة =============== -->
 <div id="istBox" class="container active">
-  <h2>📝 نماذج الاستقالة 📝</h2>
+  <h2> نماذج الاستقالة 📝</h2>
 
   <div class="sub-menu">
     <button onclick="showSub('ist-jundi', this, 'istBox')">جندي - جندي أول - عريف</button>
@@ -345,7 +345,7 @@
     <input type="number" id="dubbat-barqia" placeholder="0000">
 
     <label>الكوبي ايدي</label>
-    <input type="text" id="dubbat-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="dubbat-copyid" placeholder="  ">
 
     <label>إسم العسكري</label>
     <input type="text" id="dubbat-name" placeholder="هنا اسمه">
@@ -378,7 +378,7 @@
 
 <!-- =============== TAB 2: اجازات =============== -->
 <div id="vacBox" class="container">
-  <h2>🧳 نماذج الإجازات 🧳</h2>
+  <h2> نماذج الإجازات 🧳</h2>
 
   <div class="sub-menu">
     <button class="active" onclick="showSub('ij-int', this, 'vacBox')">إجازة داخلية</button>
@@ -399,8 +399,8 @@
       <option value="ضباط">ضباط</option>
     </select>
 
-    <label>الكوبي ايدي (منشن العسكري)</label>
-    <input type="text" id="int-copyid" placeholder="مثال 123456789012345678">
+    <label>الكوبي ايدي</label>
+    <input type="text" id="int-copyid" placeholder=" ">
 
     <label>مدة الإجازة (بالساعات)</label>
     <input type="number" id="int-duration" placeholder="مثال 24">
@@ -426,7 +426,7 @@
     </div>
 
     <label>توقيعك و اعتمادك</label>
-    <input type="text" id="int-signer" placeholder="@اسمك أو كودك">
+    <input type="text" id="int-signer" placeholder="الكوبي ايدي الخاص بك">
 
     <div class="button-row">
       <button class="btn" id="int-generate">إنشاء القرار</button>
@@ -451,7 +451,7 @@
     <input type="number" id="ext-barqia" placeholder="0000">
 
     <label>كوبي ايدي العسكري</label>
-    <input type="text" id="ext-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="ext-copyid" placeholder=" ">
 
     <label>المدة (بالأيام)</label>
     <input type="number" id="ext-days" placeholder="مثال 30">
@@ -477,7 +477,7 @@
 
 <!-- =============== TAB 3: الانتدابات =============== -->
 <div id="entBox" class="container">
-  <h2>📌 نماذج الانتدابات 📌</h2>
+  <h2> نماذج الانتدابات 📌</h2>
 
   <label>برقية رقم</label>
   <input type="number" id="ent-barqia" placeholder="0000">
@@ -531,7 +531,7 @@
     <input type="number" id="mp-est-barqia" placeholder="0000">
 
     <label>الكوبي ايدي</label>
-    <input type="text" id="mp-est-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="mp-est-copyid" placeholder=" ">
 
     <label>مدة المهلة</label>
     <select id="mp-est-mohla">
@@ -559,7 +559,7 @@
     <input type="number" id="mp-hkm-barqia" placeholder="0000">
 
     <label>الكوبي ايدي</label>
-    <input type="text" id="mp-hkm-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="mp-hkm-copyid" placeholder=" ">
 
     <label>بسبب</label>
     <input type="text" id="mp-hkm-reason" placeholder="اكتب السبب هنا">
@@ -597,7 +597,7 @@
     <input type="number" id="court-est-barqia" placeholder="0000">
 
     <label>الكوبي ايدي</label>
-    <input type="text" id="court-est-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="court-est-copyid" placeholder=" ">
 
     <label>مدة المهلة</label>
     <select id="court-est-mohla">
@@ -625,7 +625,7 @@
     <input type="number" id="court-hkm-barqia" placeholder="0000">
 
     <label>الكوبي ايدي</label>
-    <input type="text" id="court-hkm-copyid" placeholder="مثال 123456789012345678">
+    <input type="text" id="court-hkm-copyid" placeholder=" ">
 
     <label>بسبب</label>
     <input type="text" id="court-hkm-reason" placeholder="اكتب السبب هنا">
@@ -1199,6 +1199,7 @@
 </script>
 </body>
 </html>
+
 
 
 
